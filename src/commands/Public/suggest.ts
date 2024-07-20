@@ -3,8 +3,6 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {
     Awaitable,
     ChatInputCommandInteraction,
-    GuildMemberRoleManager,
-    Message,
     SlashCommandBuilder,
     TextChannel
 } from "discord.js";
