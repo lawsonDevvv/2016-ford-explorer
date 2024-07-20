@@ -77,6 +77,6 @@ export default class extends Command {
         ;
 
         await (interaction.guild?.channels.cache.get('1242988692419772467') as TextChannel).send({embeds: [embed]});
-        await interaction.editReply("Done. Suggestion ID" + createdSuggestion.id);
+        await interaction.editReply("Done. Suggestion ID " + createdSuggestion.id);
     }
 }
