@@ -1,0 +1,44 @@
+{
+  "name": "2016-ford-explorer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/Bot.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "start": "node ./dist/Bot.js",
+    "nuke": "rimraf ./dist"
+  },
+  "keywords": [],
+  "author": "https://lawson.nyc",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/builders": "^1.7.0",
+    "@prisma/client": "^5.16.2",
+    "@sapphire/decorators": "^6.0.2",
+    "@sapphire/framework": "^4.8.5",
+    "@sapphire/plugin-api": "^5.2.0",
+    "@sapphire/plugin-editable-commands": "^3.1.0",
+    "@sapphire/plugin-logger": "^3.0.7",
+    "@sapphire/ts-config": "^5.0.0",
+    "colorette": "^2.0.20",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.3.1",
+    "dotenv-cra": "^3.0.3",
+    "noblox.js": "^4.15.1",
+    "openblox": "^1.0.15",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.5",
+    "short-unique-id": "^5.2.0"
+  },
+  "types": "./dist/Bot.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.lawson.nyc/iAmLawson/osaka-continental.git"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {
+    "prisma": "^5.16.2"
+  }
+}
