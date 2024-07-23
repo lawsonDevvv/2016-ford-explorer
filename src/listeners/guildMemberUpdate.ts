@@ -1,9 +1,9 @@
-import {Listener, ListenerOptions} from "@sapphire/framework";
+import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {GuildMember, TextChannel} from "discord.js";
 
 @ApplyOptions<ListenerOptions>({
-    event: "guildMemberUpdate"
+    event: Events.GuildMemberUpdate
 })
 export default class extends Listener {
     public async run(oldMember: GuildMember, newMember: GuildMember) {

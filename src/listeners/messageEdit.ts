@@ -1,11 +1,11 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Listener, ListenerOptions } from "@sapphire/framework";
+import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import { GuildChannel, Message } from "discord.js";
 import { editsnipes } from "../Bot.js";
 
 @ApplyOptions<ListenerOptions>({
     name: "messageUpdate",
-    event: "messageUpdate",
+    event: Events.MessageUpdate,
 })
 export default class extends Listener {
     public async run(oldMessage: Message, newMessage: Message): Promise<void> {
