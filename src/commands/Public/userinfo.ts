@@ -24,7 +24,7 @@ export default class extends Command {
     }
 
     async chatInputRun(interaction: ChatInputCommandInteraction) {
-        const member = interaction.member as GuildMember;
+        const member = (interaction.options.getMember('user') ?? interaction.member) as GuildMember;
 
         const embed = new EmbedBuilder()
             .setTitle(`${member.user.tag}`)
