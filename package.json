@@ -19,6 +19,7 @@
     "@sapphire/plugin-api": "^5.2.0",
     "@sapphire/plugin-editable-commands": "^3.1.0",
     "@sapphire/plugin-logger": "^3.0.7",
+    "@sapphire/plugin-subcommands": "^6.0.3",
     "@sapphire/ts-config": "^5.0.0",
     "colorette": "^2.0.20",
     "discord.js": "^14.15.3",
