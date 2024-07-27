@@ -38,7 +38,7 @@ export default class extends Command {
                     await interaction.editReply(`:thumbsup: Changed \`${robloxUsername}\`'s rank from Member to Member+.`);
                 })
                 .catch(async (err: Error) => {
-                    await interaction.editReply(`Shit. That's not supposed to happen.\n\`\`\`${err.name}: ${err.message}\n\nDeveloper mumbo-jumbo:\n${err.stack}\`\`\``)
+                    await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${err.name}: ${err.message}`)
                     this.container.logger.error(err);
                 })
         } else {
