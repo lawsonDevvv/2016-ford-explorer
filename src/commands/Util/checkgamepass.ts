@@ -1,6 +1,6 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
-import {Awaitable, ChatInputCommandInteraction, InteractionResponse, SlashCommandBuilder} from "discord.js";
+import {Awaitable, ChatInputCommandInteraction, InteractionResponse, Message, SlashCommandBuilder} from "discord.js";
 import * as noblox from 'noblox.js';
 
 @ApplyOptions<CommandOptions>({
