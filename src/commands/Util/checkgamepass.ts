@@ -42,7 +42,7 @@ export default class extends Command {
                     this.container.logger.error(err);
                 })
         } else {
-            return await interaction.reply(`:thumbsdown: I didn't find the Member+ asset ID in their inventory.`)
+            return await interaction.editReply(`:thumbsdown: I didn't find the Member+ asset ID in their inventory.`)
         }
 
         return null;
