@@ -22,7 +22,7 @@ export default class extends Command {
         registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<InteractionResponse<boolean> | null> {
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Promise<InteractionResponse<boolean> | null> | Promise<Message<boolean>>>{
         const robloxUsername = interaction.options.getString("roblox_username", true)
         const robloxId = await noblox.getIdFromUsername(robloxUsername)
         let ownsGamePass = await noblox.getOwnership(robloxId, 696671931, "GamePass")
