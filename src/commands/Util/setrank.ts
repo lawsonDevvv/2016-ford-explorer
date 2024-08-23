@@ -50,7 +50,7 @@ export default class extends Command {
         const username: string = interaction.options.getString("username", true);
         const rank: string = interaction.options.getString("rank", true);
         const robloxId =  await noblox.getIdFromUsername(username);
-        const logChannel: TextChannel = interaction.guild?.channels.cache.get('1265355234658615296');
+        const logChannel: TextChannel = interaction.guild?.channels.cache.get('1265355234658615296') as TextChannel;
 
         if (await noblox.getRankInGroup(parseInt(process.env.CMTZ_GROUP??"0"), robloxId) === 0) {
             return await interaction.reply("Cylinder 6 misfire.\n\`\`\`Target user not in group.\`\`\`");
