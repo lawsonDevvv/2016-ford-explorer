@@ -3,7 +3,7 @@ LABEL authors="733Law"
 WORKDIR .
 COPY . .
 RUN npm install
-CMD ["npm", "build"]
+CMD ["npm", "run build"]
 CMD ["npm", "start"]
 
 ENTRYPOINT ["top", "-b"]
