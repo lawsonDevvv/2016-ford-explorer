@@ -2,6 +2,7 @@ import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {GuildMember, TextChannel} from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
+import suffix from "../util/suffix";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.GuildMemberRemove
@@ -22,7 +23,7 @@ export default class extends Listener {
                     value: `${member.joinedAt}`
                 }
             ])
-            .setFooter({text: "Guild Member Removed"})
+            .setFooter({text: `Now have ${suffix(member.guild.memberCount)} members`})
             .setColor(0xFF0000)
         ;
 

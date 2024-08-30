@@ -2,6 +2,7 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {GuildMember, TextChannel} from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
+import suffix from "../util/suffix";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.GuildMemberAdd
@@ -18,7 +19,7 @@ export default class extends Listener {
                     value: `${member.user.createdAt}`
                 }
             ])
-            .setFooter({text: "Guild Member Added"})
+            .setFooter({text: `${suffix(channel.guild.memberCount)} member.`})
             .setColor(0x08FF00)
         ;
 
