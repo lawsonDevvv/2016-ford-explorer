@@ -29,7 +29,7 @@ async function main() {
       client.logger.info("Connected to database server.")
     });
     await noblox.setCookie(process.env.ROBLOX_COOKIE ?? "0").then(_ => {
-      client.logger.info(`Logged into the ROBLOX API as ${_.UserName}(${_.UserID})`);
+      client.logger.info(`Logged into the ROBLOX API as ${_.name}(${_.id})`);
     })
     await client.login(process.env.TOKEN ?? "0");
     client.user?.setActivity({
