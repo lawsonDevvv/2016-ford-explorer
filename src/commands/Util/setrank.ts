@@ -60,7 +60,7 @@ export default class extends Command {
 
         try {
             if (rank === GroupRanks.ServerBooster) {
-                await noblox.setRank(parseInt(process.env.CMTZ_GROUP ?? "0"), robloxId, "SERVER BOOSTER");
+                await noblox.setRank(parseInt(process.env.CMTZ_GROUP ?? "0"), robloxId, "BOOSTER");
                 await logChannel.send(`${username} was given group rank Server Booster by ${interaction.user}.`);
                 return await interaction.editReply(`Set \`${username}\`'s rank to Server Booster. Run /update to update roles.`);
             } else if (rank === GroupRanks.MemberPlus) {
