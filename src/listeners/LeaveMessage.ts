@@ -23,7 +23,7 @@ export default class extends Listener {
                     value: `${member.joinedAt}`
                 }
             ])
-            .setFooter({text: `Now have ${await suffix(member.guild.memberCount)} members`})
+            .setFooter({text: `Now have ${member.guild.memberCount} members`})
             .setColor(0xFF0000)
         ;
 
