@@ -2,7 +2,6 @@ import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {GuildMember, TextChannel} from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
-import suffix from "../util/suffix";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.GuildMemberRemove
