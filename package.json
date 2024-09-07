@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rimraf ./dist && tsc",
     "start": "node ./dist/Bot.js",
-    "nuke": "rimraf ./dist"
+    "nuke": "rimraf ./dist",
+    "update": "git pull origin main && rimraf ./dist && tsc"
   },
   "keywords": [],
   "author": "https://lawson.nyc",
