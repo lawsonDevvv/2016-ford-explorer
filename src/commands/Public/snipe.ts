@@ -15,18 +15,19 @@ export default class extends Command {
             .setDescription(this.description)
             .addStringOption(option => 
                 option
-                .setName("type")
-                .setDescription("Choose whether to snipe a message or an edit.")
-                .addChoices(
-                    {
-                        name: "Message Snipe",
-                        value: "msg"
-                    },
-                    {
-                        name: "Edit Snipe",
-                        value: "edit"
-                    }
-                )
+                    .setName("type")
+                    .setDescription("Choose whether to snipe a message or an edit.")
+                    .addChoices(
+                        {
+                            name: "Message Snipe",
+                            value: "msg"
+                        },
+                        {
+                            name: "Edit Snipe",
+                            value: "edit"
+                        }
+                    )
+                    .setRequired(true)
             )
 
         registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
