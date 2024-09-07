@@ -18,3 +18,10 @@ model Suggestion {
   editedAt   DateTime @updatedAt
   status     String   @default("Pending")
 }
+
+model Counting {
+  server        String   @id @unique
+  currentNumber Int
+  lastCounter   String
+  countedAt     DateTime
+}
