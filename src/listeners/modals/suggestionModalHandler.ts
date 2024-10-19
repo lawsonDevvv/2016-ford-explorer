@@ -1,6 +1,13 @@
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
-import {ModalSubmitInteraction, TextChannel} from "discord.js";
+import {
+    ForumChannel,
+    InteractionResponse,
+    ModalSubmitInteraction,
+    Snowflake,
+    TextChannel,
+    ThreadAutoArchiveDuration
+} from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
 import {prisma} from "../../Bot";
 import ShortUniqueId from "short-unique-id";
@@ -9,13 +16,28 @@ const { randomUUID } = new ShortUniqueId({ length: 10 });
     event: Events.InteractionCreate
 })
 export default class extends Listener {
-    public async run(interaction: ModalSubmitInteraction): Promise<void> {
+    public async run(interaction: ModalSubmitInteraction): Promise<Promise<void> | InteractionResponse<boolean>> {
         if (!interaction.isModalSubmit()) return;
         if (interaction.customId !== "suggestionModal") return;
 
         const type = interaction.fields.getTextInputValue('typeInput');
         const suggestion = interaction.fields.getTextInputValue('suggestionInput');
         const reason = interaction.fields.getTextInputValue('reasonInput');
+
+        let appliedTags: Array<Snowflake> = []
+        switch (type.toLowerCase()) {
+            case "server":
+                appliedTags.push("Server Suggestion")
+                break;
+            case "game":
+                appliedTags.push("Server Suggestion")
+                break;
+            case "other":
+                appliedTags.push("Server Suggestion")
+                break;
+            default:
+                return await interaction.reply("You did not submit one of the accepted Suggestion Types: Server, Game, or Other. Please try again.")
+        }
 
         const createdSuggestion = await prisma.suggestion.create({
             data: {
@@ -53,7 +75,14 @@ export default class extends Listener {
             .setFooter({text: `Suggestion ID: ${createdSuggestion.id}`})
         ;
 
-        const suggestionMessage = await (interaction.guild?.channels.cache.get('1242988692419772467') as TextChannel).send({embeds: [embed]});
+        const suggestionMessage = await (interaction.guild?.channels.cache.get('1286445249287163914') as ForumChannel).threads.create({
+            name: `${type} Suggestion from ${interaction.user}`,
+            autoArchiveDuration: ThreadAutoArchiveDuration.OneHour,
+            message: {
+                embeds: [embed]
+            },
+            appliedTags: []
+        });
         await prisma.suggestion.update({
             where: {
                 id: createdSuggestion.id
