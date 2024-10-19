@@ -74,7 +74,6 @@ export default class extends Listener {
             .setFooter({text: `Suggestion ID: ${createdSuggestion.id}`})
         ;
         const suggestionThread = await (interaction.guild?.channels.cache.get('1286445249287163914') as ForumChannel).threads.create({
-        const suggestionMessage = await (interaction.guild?.channels.cache.get('1286445249287163914') as ForumChannel).threads.create({
             name: `${type} Suggestion from ${interaction.user}`,
             autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
             message: {
@@ -82,6 +81,10 @@ export default class extends Listener {
             },
             appliedTags
         });
+        const suggestionMessage = await suggestionThread.fetchStarterMessage() as Message;
+        await suggestionMessage.react('✅');
+        await suggestionMessage.react('❌');
+        await suggestionMessage.reply("A thread was created to discuss this suggestion. You may vote using the reactions I've provided above.");
         await prisma.suggestion.update({
             where: {
                 id: createdSuggestion.id
