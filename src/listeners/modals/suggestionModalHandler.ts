@@ -92,7 +92,7 @@ export default class extends Listener {
         }).then(async s => {
             await interaction.reply(`Done. Suggestion ID ${s.id}`);
         }).catch(async _ => {
-            await interaction.reply(`Cylinder 1 misfire.\n\`\`\`This is NOT supposed to happen.\`\`\`\n<@415278805683404821> come save me :(`);
-        })
+            await interaction.reply(`Cylinder 1 misfire.\n\`\`\`Database update error. This is NOT supposed to happen.\`\`\`\n<@415278805683404821> come save me :(`);
+        });
     }
 }
