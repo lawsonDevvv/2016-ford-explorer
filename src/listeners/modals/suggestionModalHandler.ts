@@ -76,7 +76,7 @@ export default class extends Listener {
 
         const suggestionMessage = await (interaction.guild?.channels.cache.get('1286445249287163914') as ForumChannel).threads.create({
             name: `${type} Suggestion from ${interaction.user}`,
-            autoArchiveDuration: ThreadAutoArchiveDuration.OneHour,
+            autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
             message: {
                 embeds: [embed]
             },
