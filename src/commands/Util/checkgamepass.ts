@@ -1,41 +1,59 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
-import {Awaitable, ChatInputCommandInteraction, InteractionResponse, Message, SlashCommandBuilder} from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    GuildMember,
+    SlashCommandBuilder
+} from "discord.js";
 import * as noblox from 'noblox.js';
 
 @ApplyOptions<CommandOptions>({
-    description: "View a list of CMTZ gamepasses they own.",
+    description: "Check if they own the Member+ pass.",
     cooldownDelay: 15000,
     preconditions: ['Staff']
 })
 export default class extends Command {
-    public registerApplicationCommands(registry: ApplicationCommandRegistry): Awaitable<void> {
+    public registerApplicationCommands(registry: ApplicationCommandRegistry): void {
         const builder = new SlashCommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
             .addStringOption(o =>
                 o
-                    .setName("roblox_username")
-                    .setDescription("The username of the person you want to inventory check.")
+                    .setName("username")
+                    .setDescription("Mention the person you want to inventory check.")
                     .setRequired(true)
             )
+            .addUserOption(o =>
+                o
+                    .setName("discord_user")
+                    .setDescription("Mention the person you want to inventory check.")
+                    .setRequired(false)
+            )
+        ;
+
         registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Promise<InteractionResponse<boolean> | null> | Promise<Message<boolean>>>{
-        const robloxUsername = interaction.options.getString("roblox_username", true)
-        const robloxId = await noblox.getIdFromUsername(robloxUsername)
-        let ownsGamePass = await noblox.getOwnership(robloxId, 696671931, "GamePass")
+    public async chatInputRun(interaction: ChatInputCommandInteraction) {
+        const username: string = interaction.options.getString("username", true);
+        const robloxId: number = await noblox.getIdFromUsername(username);
+        const user = interaction.options.getMember("discord_user") as GuildMember;
+        let ownsGamePass: boolean = await noblox.getOwnership(robloxId, 696671931, "GamePass")
         if (await noblox.getRankInGroup(parseInt(process.env.CMTZ_GROUP??"0"), robloxId) > 1) {
             return await interaction.reply(":question: User is already above rank 2 (above Member). Are you running this command on the right user?")
         }
         await interaction.reply("Hold on. Roblox is slow, this may take a while..")
-        interaction.client.logger.debug(`ownsgamepass: ${ownsGamePass}`)
 
         if (ownsGamePass) {
-            noblox.changeRank(parseInt(process.env.CMTZ_GROUP??"0"), robloxId, 1)
+            return noblox.changeRank(parseInt(process.env.CMTZ_GROUP??"0"), robloxId, 1)
                 .then(async _ => {
-                    await interaction.editReply(`:thumbsup: Changed \`${robloxUsername}\`'s rank from Member to Member+.`);
+                    if (user) {
+                        user.roles.add(['1200892438470991914', '1219419344589819905'])
+                            .catch(async __ => {
+                                return interaction.editReply(`Cylinder 6 Misfire\n\nRanked ${username} in the group, but failed to set their Discord roles.`)
+                            })
+                    }
+                    await interaction.editReply(`:thumbsup: Changed ${username}'s rank from Member to Member+.`);
                 })
                 .catch(async (err: Error) => {
                     await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${err.name}: ${err.message}\`\`\``)
@@ -45,6 +63,6 @@ export default class extends Command {
             return await interaction.editReply(`:thumbsdown: I didn't find the Member+ asset ID in their inventory.`)
         }
 
-        return null;
+
     }
 }
