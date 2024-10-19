@@ -5,7 +5,6 @@ import {
     InteractionResponse,
     ModalSubmitInteraction,
     Snowflake,
-    TextChannel,
     ThreadAutoArchiveDuration
 } from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
@@ -81,7 +80,7 @@ export default class extends Listener {
             message: {
                 embeds: [embed]
             },
-            appliedTags: []
+            appliedTags: appliedTags
         });
         await prisma.suggestion.update({
             where: {
