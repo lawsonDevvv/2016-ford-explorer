@@ -26,13 +26,13 @@ export default class extends Listener {
         let appliedTags: Array<Snowflake> = []
         switch (type.toLowerCase()) {
             case "server":
-                appliedTags.push("Server Suggestion")
+                appliedTags.push("1286445723684180021")
                 break;
             case "game":
-                appliedTags.push("Server Suggestion")
+                appliedTags.push("1286445749881671700")
                 break;
             case "other":
-                appliedTags.push("Server Suggestion")
+                appliedTags.push("1286445775970238485")
                 break;
             default:
                 return await interaction.reply("You did not submit one of the accepted Suggestion Types: Server, Game, or Other. Please try again.")
