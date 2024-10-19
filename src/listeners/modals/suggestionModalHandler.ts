@@ -2,7 +2,7 @@ import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {
     ForumChannel,
-    InteractionResponse,
+    InteractionResponse, Message,
     ModalSubmitInteraction,
     Snowflake,
     ThreadAutoArchiveDuration
