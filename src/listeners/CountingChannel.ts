@@ -1,6 +1,6 @@
 import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message } from "discord.js";
+import {EmojiIdentifierResolvable, Message} from "discord.js";
 import { prisma } from "../Bot";
 
 @ApplyOptions<ListenerOptions>({
@@ -56,6 +56,16 @@ export default class extends Listener {
                 await message.reply("Cylinder 3 misfire.\n```You counted wrong. Back to 0.```");
             } else {
                 await this.reactToMessage(message, "👍");
+                if (countingSettings.countingRecord < numberContent) {
+                    prisma.counting.update({
+                        where: {
+                            server: message.guild.id
+                        },
+                        data: {
+                            countingRecord: numberContent
+                        },
+                    })
+                }
                 this.container.logger.info(`Counter increased by ${message.author.username} to ${numberContent}.`);
             }
         } catch (err) {
@@ -78,11 +88,13 @@ export default class extends Listener {
     }
 
     // Helper function to react to a message
-    private async reactToMessage(message: Message, emoji: string): Promise<void> {
+    private async reactToMessage(message: Message, emoji: EmojiIdentifierResolvable): Promise<void> {
         try {
-            await message.react(emoji);
+            await message.react(emoji)
+            await Promise.resolve()
         } catch (err) {
             this.container.logger.warn(`Failed to react with ${emoji}:`, err);
+            await Promise.reject(err);
         }
     }
 }
