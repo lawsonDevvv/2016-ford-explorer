@@ -9,15 +9,17 @@ generator client {
 }
 
 model Suggestion {
-  id         String   @id @unique
-  author     String
-  createdAt  DateTime @default(now())
-  suggestion String
-  reason     String
-  editedBy   String   @default("Nobody")
-  editedAt   DateTime @updatedAt
-  status     String   @default("Pending")
-  messageId  String   @default("N/A")
+  id            String   @id @unique
+  type          String   @default("???")
+  author        String
+  createdAt     DateTime @default(now())
+  suggestion    String
+  reason        String
+  editedBy      String   @default("Nobody")
+  editedAt      DateTime @updatedAt
+  status        String   @default("Pending")
+  staffResponse String   @default("N/A")
+  messageId     String   @default("N/A")
 }
 
 model Counting {
