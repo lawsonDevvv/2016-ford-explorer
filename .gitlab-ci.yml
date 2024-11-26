@@ -1,0 +1,21 @@
+stages:
+  - build
+
+variables:
+  # Use a specific Node.js version
+  NODE_VERSION: "16"
+
+build_project:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - echo "Installing dependencies..."
+    - npm install
+    - echo "Building the TypeScript project..."
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - main  # Run this job only for the main branch (adjust as needed)
+
