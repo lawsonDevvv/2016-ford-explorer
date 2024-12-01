@@ -10,6 +10,7 @@ import {
 import {EmbedBuilder} from "@discordjs/builders";
 import {prisma} from "../../Bot";
 import ShortUniqueId from "short-unique-id";
+import SuggestionThreadTags from "../../util/types/suggestionThreadTags";
 const { randomUUID } = new ShortUniqueId({ length: 10 });
 @ApplyOptions<ListenerOptions>({
     event: Events.InteractionCreate
@@ -26,13 +27,13 @@ export default class extends Listener {
         let appliedTags: Array<Snowflake> = []
         switch (type.toLowerCase()) {
             case "server":
-                appliedTags.push("1286445723684180021")
+                appliedTags.push(SuggestionThreadTags.ServerSuggestion.id)
                 break;
             case "game":
-                appliedTags.push("1286445749881671700")
+                appliedTags.push(SuggestionThreadTags.GameSuggestion.id)
                 break;
             case "other":
-                appliedTags.push("1286445775970238485")
+                appliedTags.push(SuggestionThreadTags.OtherSuggestion.id)
                 break;
             default:
                 return await interaction.reply("You did not submit one of the accepted Suggestion Types: Server, Game, or Other. Please try again.")
