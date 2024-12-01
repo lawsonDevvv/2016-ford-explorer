@@ -10,7 +10,7 @@
 	  	"baseUrl": ".",
 	  	"resolveJsonModule": true,
 	  	"composite": true,
-	  "composite": true
+		"skipLibCheck": true
 	},
 	"include": ["src", "src/config/config.json"],
 	"exclude": ["node_modules"]
