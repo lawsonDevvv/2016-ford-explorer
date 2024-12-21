@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^6.0.1",
     "@sapphire/decorators": "^6.0.2",
     "@sapphire/framework": "^4.8.5",
     "@sapphire/plugin-api": "^5.2.0",
@@ -22,6 +22,7 @@
     "@sapphire/plugin-logger": "^3.0.7",
     "@sapphire/plugin-subcommands": "^6.0.3",
     "@sapphire/ts-config": "^5.0.0",
+    "@sentry/node": "^8.47.0",
     "colorette": "^2.0.20",
     "discord.js": "^14.15.3",
     "dotenv": "^16.3.1",
