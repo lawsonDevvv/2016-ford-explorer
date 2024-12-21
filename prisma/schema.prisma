@@ -43,3 +43,13 @@ model Giveaway {
   participants GiveawayParticipant[]
   host         String
 }
+
+model GiveawayParticipant {
+  id         Int    @id @default(autoincrement())
+  giveawayId Int
+  userId     String
+
+  giveaway Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+
+  @@unique([giveawayId, userId]) // Ensures a user can participate only once in a giveaway
+}
