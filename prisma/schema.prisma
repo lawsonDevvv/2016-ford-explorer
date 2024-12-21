@@ -53,3 +53,11 @@ model GiveawayParticipant {
 
   @@unique([giveawayId, userId]) // Ensures a user can participate only once in a giveaway
 }
+
+model CountingBlacklist {
+  id        Int     @id @unique @default(autoincrement())
+  user      String
+  reason    String
+  moderator String
+  active    Boolean
+}
