@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { CommandOptions, Command, ApplicationCommandRegistry, RegisterBehavior } from "@sapphire/framework";
 import { ChatInputCommandInteraction, InteractionResponse, TextChannel } from "discord.js";
 import { EmbedBuilder, SlashCommandBuilder } from "@discordjs/builders";
-import { editsnipes, snipes } from "../../Bot.js";
+import { editSnipes, snipes } from "../../Bot.js";
 
 @ApplyOptions<CommandOptions>({
     description: "Snipe a deleted message.",
@@ -50,7 +50,7 @@ export default class extends Command {
 
                 return await interaction.reply({ embeds: [snipeEmbed] });
             case "edit":
-                const editSnipe = editsnipes.get((interaction.channel as TextChannel).id);
+                const editSnipe = editSnipes.get((interaction.channel as TextChannel).id);
                 if (!editSnipe) return interaction.reply("There's nothing to snipe. This message was probably edited before/during a restart.");
 
                 const editSnipeEmbed = new EmbedBuilder()

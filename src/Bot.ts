@@ -3,7 +3,7 @@ import { LawsonClient } from "./lib/LawsonClient";
 import { PrismaClient } from "@prisma/client";
 export const prisma: PrismaClient = new PrismaClient();
 export const snipes = new Map<string, Message>();
-export const editsnipes = new Map<string, Message[]>();
+export const editSnipes = new Map<string, Message[]>();
 import "reflect-metadata";
 import "@sapphire/plugin-logger/register";
 import * as colorette from "colorette";
