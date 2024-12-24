@@ -36,7 +36,7 @@
   "types": "./dist/Bot.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.lawson.nyc/iAmLawson/osaka-continental.git"
+    "url": "https://lawson.nyc/iAmLawson/2016-ford-explorer.git"
   },
   "directories": {
     "lib": "lib"
