@@ -10,7 +10,8 @@
 	  	"baseUrl": ".",
 	  	"resolveJsonModule": true,
 	  	"composite": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"moduleResolution": "NodeNext"
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]
