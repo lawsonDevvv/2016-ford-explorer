@@ -84,7 +84,8 @@ export default class CreateGiveaway extends Command {
                 { name: "Winners", value: winners.toString(), inline: true },
                 { name: "Ends At", value: `<t:${Math.floor(parsedEndDate / 1000)}:F>`, inline: true }
             ])
-            .setTimestamp(new Date());
+            .setTimestamp(new Date())
+            .setFooter({text: `#${giveaway.id}`});
 
         const joinButton = new ButtonBuilder()
             .setLabel("Join Giveaway")
@@ -100,8 +101,7 @@ export default class CreateGiveaway extends Command {
                 return await interaction.reply("Failed to send the giveaway message.");
             });
 
-        await prisma.giveaway
-            .update({
+        await prisma.giveaway.update({
                 where: { id: giveaway.id as number },
                 data: { messageId: message.id }
             })
