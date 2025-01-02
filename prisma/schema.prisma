@@ -29,3 +29,35 @@ model Counting {
   countedAt      DateTime
   countingRecord Int      @default(0)
 }
+
+model Giveaway {
+  id           Int                   @id @default(autoincrement())
+  channelId    String
+  guildId      String
+  messageId    String?
+  prize        String
+  winners      Int
+  endsAt       DateTime
+  status       Int                   @default(1) // See @util/types/GiveawayStatus.ts
+  createdAt    DateTime              @default(now())
+  participants GiveawayParticipant[]
+  host         String
+}
+
+model GiveawayParticipant {
+  id         Int    @id @default(autoincrement())
+  giveawayId Int
+  userId     String
+
+  giveaway Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+
+  @@unique([giveawayId, userId]) // Ensures a user can participate only once in a giveaway
+}
+
+model CountingBlacklist {
+  id        Int     @id @unique @default(autoincrement())
+  user      String
+  reason    String
+  moderator String
+  active    Boolean
+}

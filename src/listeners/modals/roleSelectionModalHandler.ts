@@ -106,10 +106,7 @@ export default class extends Listener {
                     })
                 }
             default:
-                return await interaction.reply({
-                    content: "```Cylinder 1 Misfire: Internal Server Error (CBTCFailure)```",
-                    ephemeral: true
-                })
+                return;
         }
     }
 }
