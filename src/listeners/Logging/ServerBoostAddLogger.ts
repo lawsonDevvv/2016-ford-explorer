@@ -6,8 +6,11 @@ import {ApplyOptions} from "@sapphire/decorators";
     event: Events.GuildMemberUpdate
 })
 export default class extends Listener {
-    public run(oldMember: GuildMember, newMember: GuildMember) {
-        if (!oldMember.premiumSince && newMember.premiumSince) {
+    public async run(oldMember: GuildMember, newMember: GuildMember): Promise<void> {
+        const premiumRole = oldMember.guild.roles.premiumSubscriberRole;
+        if (!premiumRole) throw new Error("Guild's PremiumRole was not found.");
+
+        if (!oldMember.roles.cache.has(premiumRole.id) && newMember.roles.cache.has(premiumRole.id)) {
             const channel = this.container.client.channels.cache.get("1323145054960750635");
 
             if (!channel) throw new Error("Server boost logging channel not found.");
@@ -15,10 +18,10 @@ export default class extends Listener {
                 throw new Error("Server boost logging channel is not an instance of TextChannel.");
             }
 
-            channel.send(`<@${oldMember.id}> has started boosting the server.`)
+            await channel.send(`<@${oldMember.id}> has started boosting the server.`)
                 .catch((reason: any): void => {
-                    throw reason;
-                })
+                    this.container.logger.error(reason);
+                });
         }
     }
 }

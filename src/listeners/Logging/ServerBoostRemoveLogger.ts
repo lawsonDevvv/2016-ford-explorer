@@ -7,7 +7,13 @@ import {ApplyOptions} from "@sapphire/decorators";
 })
 export default class extends Listener {
     public async run(oldMember: GuildMember, newMember: GuildMember) {
-        if (oldMember.premiumSince && !newMember.premiumSince) {
+        const premiumRole = oldMember.guild.roles.premiumSubscriberRole;
+        if (!premiumRole) throw new Error("Guild's PremiumRole was not found.");
+
+        if (!oldMember.roles.cache.has(premiumRole.id) && newMember.roles.cache.has(premiumRole.id)) {
+            const premiumRole = oldMember.guild.roles.premiumSubscriberRole;
+            if (!premiumRole) throw new Error("Guild's PremiumRole was not found.");
+
             const channel = this.container.client.channels.cache.get("1323145054960750635");
 
             if (!channel) throw new Error("Server boost logging channel not found.");
