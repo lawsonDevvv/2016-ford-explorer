@@ -3,7 +3,7 @@ import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} f
 import {
     ChatInputCommandInteraction,
     GuildMember,
-    InteractionResponse,
+    InteractionResponse, Message,
     SlashCommandBuilder
 } from "discord.js";
 import * as noblox from 'noblox.js';
@@ -35,16 +35,11 @@ export default class extends Command {
         registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<void | InteractionResponse<boolean>> {
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<void | InteractionResponse<boolean> | Message<boolean>> {
         const username: string = interaction.options.getString("username", true);
-        let robloxId: number;
+        const robloxId: number = await noblox.getIdFromUsername(username);
 
-        try {
-            robloxId = await noblox.getIdFromUsername(username);
-        } catch (error) {
-            return await interaction.reply(`:x: Input did not return a valid Roblox user ID. Make sure you are typing their actual username (not their display name) and **not pinging them**, and that the username is correct.`);
-        }
-
+        if (!robloxId) return await interaction.reply(`:x: Input did not return a valid Roblox user ID. Make sure you are typing their actual username (not their display name) and **not pinging them**, and that the username is correct.`);
         const user = interaction.options.getMember("discord_user") as GuildMember;
         let ownsGamePass: boolean = await noblox.getOwnership(robloxId, 696671931, "GamePass")
         if (await noblox.getRankInGroup(parseInt(process.env.CMTZ_GROUP??"0"), robloxId) > 1) {
@@ -70,7 +65,5 @@ export default class extends Command {
         } else {
             return await interaction.editReply(`:thumbsdown: I didn't find the Member+ asset ID in their inventory.`)
         }
-
-
     }
 }
