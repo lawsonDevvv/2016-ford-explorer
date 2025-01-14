@@ -3,6 +3,7 @@ import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} f
 import {
     ChatInputCommandInteraction,
     GuildMember,
+    InteractionResponse,
     SlashCommandBuilder
 } from "discord.js";
 import * as noblox from 'noblox.js';
@@ -34,9 +35,16 @@ export default class extends Command {
         registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction) {
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<void | InteractionResponse<boolean>> {
         const username: string = interaction.options.getString("username", true);
-        const robloxId: number = await noblox.getIdFromUsername(username);
+        let robloxId: number;
+
+        try {
+            robloxId = await noblox.getIdFromUsername(username);
+        } catch (error) {
+            return await interaction.reply(`:x: Input did not return a valid Roblox user ID. Make sure you are typing their actual username (not their display name) and **not pinging them**, and that the username is correct.`);
+        }
+
         const user = interaction.options.getMember("discord_user") as GuildMember;
         let ownsGamePass: boolean = await noblox.getOwnership(robloxId, 696671931, "GamePass")
         if (await noblox.getRankInGroup(parseInt(process.env.CMTZ_GROUP??"0"), robloxId) > 1) {
