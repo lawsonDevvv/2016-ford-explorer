@@ -83,6 +83,9 @@ export default class extends Command {
                     status: "Accepted",
                     staffResponse: note,
                     editedBy: interaction.user.id
+                },
+                select: {
+                    type: true
                 }
             }).catch(async (error: any) => {
                 this.container.logger.error(error);
