@@ -10,7 +10,7 @@ export default class extends Listener {
         const premiumRole = oldMember.guild.roles.premiumSubscriberRole;
         if (!premiumRole) throw new Error("Guild's PremiumRole was not found.");
 
-        if (!oldMember.roles.cache.has(premiumRole.id) && newMember.roles.cache.has(premiumRole.id)) {
+        if (oldMember.roles.cache.has(premiumRole.id) && !newMember.roles.cache.has(premiumRole.id)) {
             const premiumRole = oldMember.guild.roles.premiumSubscriberRole;
             if (!premiumRole) throw new Error("Guild's PremiumRole was not found.");
 
