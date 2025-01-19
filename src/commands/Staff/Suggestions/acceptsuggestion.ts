@@ -123,7 +123,7 @@ export default class extends Command {
                         inline: false
                     }
                 ])
-                .setFooter({text: `#${updatedSuggestion.id}`})
+                .setFooter({text: `#${suggestion.id}`})
                 .setTimestamp(suggestion.createdAt)
                 .setColor(Colors.Green);
 
