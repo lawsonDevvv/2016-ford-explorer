@@ -9,14 +9,14 @@ import { prisma } from "../Bot";
 export default class extends Listener {
     public async run(message: Message): Promise<void> {
         // Check if the message is in a guild (not a DM)
-        if (!message.guild || message.author.bot || message.channel.id !== "1281993412396191847") return;
+        if (!message.guild || !message.member|| message.author.bot || message.channel.id !== "1281993412396191847") return;
 
         const regex = /^([0-9]|[1-9][0-9]{1,7}|100000000)$/;
 
         // If message doesn't match the counting format, delete it
         if (!regex.test(message.content)) {
             try {
-                await message.delete();
+                if (!message.member.roles.cache.has("1238455317860323338")) await message.delete();
             } catch (err) {
                 this.container.logger.error("Failed to delete message:", err);
             }
