@@ -76,7 +76,7 @@ export default class extends Command {
             });
 
             if (!updatedSuggestion) {
-                return await interaction.reply("Cylinder 1 Misfire \`\`\`Error Code: NovemberFiveFoxtrot\`\`\`");
+                return;
             }
 
             const embed = new EmbedBuilder()
