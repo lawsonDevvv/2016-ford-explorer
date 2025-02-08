@@ -7,7 +7,7 @@ import {
     SlashCommandBuilder,
     TextChannel
 } from "discord.js";
-import {GroupRanks} from "../../util/types";
+import GroupRanks from "../../util/types/GroupRanks";
 import * as noblox from 'noblox.js'
 
 @ApplyOptions<CommandOptions>({
