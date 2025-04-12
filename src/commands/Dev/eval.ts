@@ -1,7 +1,8 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { CommandOptions, Command, ApplicationCommandRegistry, RegisterBehavior } from "@sapphire/framework";
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-
+//@ts-ignore
+import sendReactionRoleEmbed from "../../scripts/sendReactionRoleEmbed";
 
 @ApplyOptions<CommandOptions>({
     preconditions: ["OwnerOnly"],
