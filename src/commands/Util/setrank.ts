@@ -86,7 +86,8 @@ export default class extends Command {
                 return await interaction.editReply(`Set ${target}'s rank to Member. Run /update to update roles.`);
             }
         } catch (e: any) {
-            return await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${e.name}: ${e.message}\`\`\``);
+            console.error("Rank change error:", e);
+            return await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${e}\`\`\``);
         }
 
         return await interaction.editReply("Cylinder 1 misfire. This isn't even supposed to happen. Ping a staff member.");
