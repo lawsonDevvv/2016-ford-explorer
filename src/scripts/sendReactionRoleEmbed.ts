@@ -34,4 +34,4 @@ const sendReactionRoleEmbed = (channel: TextChannel) => {
     })
 }
 
-export default roleSelectionPanel;
+export default sendReactionRoleEmbed;
