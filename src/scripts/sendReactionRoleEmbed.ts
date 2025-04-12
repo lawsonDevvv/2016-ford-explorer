@@ -1,7 +1,7 @@
 import {ActionRowBuilder, ButtonStyle, MessageActionRowComponentBuilder, TextChannel} from "discord.js";
 import {ButtonBuilder, EmbedBuilder} from "@discordjs/builders";
 
-const roleSelectionPanel = (channel: TextChannel) => {
+const sendReactionRoleEmbed = (channel: TextChannel) => {
     const embed = new EmbedBuilder()
         .setTitle("Role Selection")
         .setDescription("To receive a role, select it here. If you would like to have the role removed, select the button again.")
