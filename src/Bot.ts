@@ -22,7 +22,7 @@ inspect.defaultOptions.depth = 1;
 
 colorette.createColors({ useColor: true });
 
-(async function main() {
+(async function () {
     try {
         client.logger.info("Hitting the ignition...");
 
