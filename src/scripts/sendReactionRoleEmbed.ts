@@ -26,7 +26,7 @@ const sendReactionRoleEmbed = async (channel: TextChannel) => {
 
     const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton);
 
-    channel.send({
+    await channel.send({
         embeds: [embed],
         components: [actionRow]
     }).catch((err: any) => {
