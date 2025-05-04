@@ -26,7 +26,7 @@ export default class extends Listener {
                 if (!devPingsRole) {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
                 if (interaction.member instanceof GuildMember) {
@@ -34,19 +34,19 @@ export default class extends Listener {
                         await interaction.member.roles.add(devPingsRole);
                         return await interaction.reply({
                             content: "Added Development Pings role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     } else {
                         await interaction.member.roles.remove(devPingsRole);
                         return await interaction.reply({
                             content: "Removed Development Pings role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     }
                 } else {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (FourteenBleeckerBridge)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     })
                 }
             case "announcementPingsButton":
@@ -54,7 +54,7 @@ export default class extends Listener {
                 if (!announcementsPingRole) {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
                 if (interaction.member instanceof GuildMember) {
@@ -62,19 +62,19 @@ export default class extends Listener {
                         await interaction.member.roles.add(announcementsPingRole);
                         return await interaction.reply({
                             content: "Added Announcement Pings role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     } else {
                         await interaction.member.roles.remove(announcementsPingRole);
                         return await interaction.reply({
                             content: "Removed Announcements Ping role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     }
                 } else {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (FourteenBleeckerBridge)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     })
                 }
             case "eventPingsButton":
@@ -82,7 +82,7 @@ export default class extends Listener {
                 if (!eventPingsRole) {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
                 if (interaction.member instanceof GuildMember) {
@@ -90,23 +90,22 @@ export default class extends Listener {
                         await interaction.member.roles.add(eventPingsRole);
                         return await interaction.reply({
                             content: "Added Event Pings role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     } else {
                         await interaction.member.roles.remove(eventPingsRole);
                         return await interaction.reply({
                             content: "Removed Event Pings role.",
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                     }
                 } else {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (FourteenBleeckerBridge)```",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     })
                 }
-            default:
-                return;
         }
+        return;
     }
 }
