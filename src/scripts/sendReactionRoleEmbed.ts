@@ -24,7 +24,19 @@ const sendReactionRoleEmbed = async (channel: TextChannel) => {
         .setStyle(ButtonStyle.Primary)
         .setCustomId("eventPingsButton");
 
-    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton);
+    const wallOfShamePingsButton = new ButtonBuilder()
+        .setLabel("Wall of Shame Pings")
+        .setEmoji({name: '🤡'})
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("wallOfShamePingsButton");
+
+    const bullshitPingsButton = new ButtonBuilder()
+        .setLabel("Bullshit Pings")
+        .setEmoji({name: '💩'})
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("bullshitPingsButton");
+
+    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton, wallOfShamePingsButton, bullshitPingsButton);
 
     await channel.send({
         embeds: [embed],
