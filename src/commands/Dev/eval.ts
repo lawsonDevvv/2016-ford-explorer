@@ -31,9 +31,9 @@ export default class EvalCommand extends Command {
         const code = interaction.options.getString("code", true);
         
         try {
-            const evaled = eval(code);
+            const evaluated = eval(code);
             
-            return await interaction.reply({ content: `${evaled}` });
+            return await interaction.reply({ content: `${evaluated}` });
         } catch (error) {
             return await interaction.reply({ content: `**Error: ${error}**`});
         }
