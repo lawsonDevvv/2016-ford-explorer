@@ -36,9 +36,9 @@ export default class extends Command {
             await channel.send({ content: text })
         } catch (e: any) {
             this.container.logger.error(e);
-            return await interaction.reply({ content: `${e}`, ephemeral: true })
+            return await interaction.reply({ content: `${e}`, flags: ['Ephemeral'] })
         }
 
-        return await interaction.reply({ content: `On the clear as-as-aspect behind 632, [Signal's In Plastic](${channel.url}).`, ephemeral: true })
+        return await interaction.reply({ content: `On the clear as-as-aspect behind 632, [Signal's In Plastic](${channel.url}).`, flags: ['Ephemeral'] })
     }
 }
