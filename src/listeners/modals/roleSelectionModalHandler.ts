@@ -23,14 +23,16 @@ export default class extends Listener {
         switch (interaction.customId) {
             case "devPingsButton":
                 const devPingsRole = interaction.guild.roles.cache.get("1254488188236599306");
+
                 if (!devPingsRole) {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
                         flags: ['Ephemeral']
                     });
                 }
+
                 if (interaction.member instanceof GuildMember) {
-                    if (!interaction.member.roles.cache.has('1254488188236599306')) {
+                    if (!interaction.member.roles.cache.has(devPingsRole.id)) {
                         await interaction.member.roles.add(devPingsRole);
                         return await interaction.reply({
                             content: "Added Development Pings role.",
@@ -51,14 +53,16 @@ export default class extends Listener {
                 }
             case "announcementPingsButton":
                 const announcementsPingRole = interaction.guild.roles.cache.get("1229076056451973151");
+
                 if (!announcementsPingRole) {
                     return await interaction.reply({
                         content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
                         flags: ['Ephemeral']
                     });
                 }
+
                 if (interaction.member instanceof GuildMember) {
-                    if (!interaction.member.roles.cache.has('1229076056451973151')) {
+                    if (!interaction.member.roles.cache.has(announcementsPingRole.id)) {
                         await interaction.member.roles.add(announcementsPingRole);
                         return await interaction.reply({
                             content: "Added Announcement Pings role.",
@@ -85,8 +89,9 @@ export default class extends Listener {
                         flags: ['Ephemeral']
                     });
                 }
+
                 if (interaction.member instanceof GuildMember) {
-                    if (!interaction.member.roles.cache.has('1272433812957298798')) {
+                    if (!interaction.member.roles.cache.has(eventPingsRole.id)) {
                         await interaction.member.roles.add(eventPingsRole);
                         return await interaction.reply({
                             content: "Added Event Pings role.",
@@ -96,6 +101,62 @@ export default class extends Listener {
                         await interaction.member.roles.remove(eventPingsRole);
                         return await interaction.reply({
                             content: "Removed Event Pings role.",
+                            flags: ['Ephemeral']
+                        })
+                    }
+                } else {
+                    return await interaction.reply({
+                        content: "```Cylinder 1 Misfire: Internal Server Error (FourteenBleeckerBridge)```",
+                        flags: ['Ephemeral']
+                    })
+                }
+            case "wallOfShamePingsButton":
+                const wallOfShamePingsRole = interaction.guild.roles.cache.get("1368686487331147848");
+                if (!wallOfShamePingsRole) {
+                    return await interaction.reply({
+                        content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
+                        flags: ['Ephemeral']
+                    });
+                }
+                if (interaction.member instanceof GuildMember) {
+                    if (!interaction.member.roles.cache.has(wallOfShamePingsRole.id)) {
+                        await interaction.member.roles.add(wallOfShamePingsRole);
+                        return await interaction.reply({
+                            content: "Added Wall of Shames Pings role.",
+                            flags: ['Ephemeral']
+                        })
+                    } else {
+                        await interaction.member.roles.remove(wallOfShamePingsRole);
+                        return await interaction.reply({
+                            content: "Removed Wall of Shames Pings role.",
+                            flags: ['Ephemeral']
+                        })
+                    }
+                } else {
+                    return await interaction.reply({
+                        content: "```Cylinder 1 Misfire: Internal Server Error (FourteenBleeckerBridge)```",
+                        flags: ['Ephemeral']
+                    })
+                }
+            case "bullshitPingsButton":
+                const bullshitPingsRole = interaction.guild.roles.cache.get("1368686522504712343");
+                if (!bullshitPingsRole) {
+                    return await interaction.reply({
+                        content: "```Cylinder 1 Misfire: Internal Server Error (IronInSignal)```",
+                        flags: ['Ephemeral']
+                    });
+                }
+                if (interaction.member instanceof GuildMember) {
+                    if (!interaction.member.roles.cache.has(bullshitPingsRole.id)) {
+                        await interaction.member.roles.add(bullshitPingsRole);
+                        return await interaction.reply({
+                            content: "Added Bullshit Pings Role role.",
+                            flags: ['Ephemeral']
+                        })
+                    } else {
+                        await interaction.member.roles.remove(bullshitPingsRole);
+                        return await interaction.reply({
+                            content: "Removed Bullshit Pings Role role.",
                             flags: ['Ephemeral']
                         })
                     }
