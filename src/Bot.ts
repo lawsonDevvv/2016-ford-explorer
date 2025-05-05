@@ -39,7 +39,7 @@ colorette.createColors({ useColor: true });
             if (!channel) return client.logger.error('Could not purge live logs, channel does not exist or I cannot see it');
             if (!(channel instanceof TextChannel)) return client.logger.error('Could not purge live logs, channel is not a TextChannel');
 
-            await channel.bulkDelete(150);
+            await channel.bulkDelete(100);
             return client.logger.info('Purged live logs');
         })
 
