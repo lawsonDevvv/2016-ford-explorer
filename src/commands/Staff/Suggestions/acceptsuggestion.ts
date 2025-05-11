@@ -35,34 +35,6 @@ export default class extends Command {
     }
 
     public async chatInputRun(interaction: ChatInputCommandInteraction) {
-        /**
-         * const embed = new EmbedBuilder()
-         *             .setTitle("New Suggestion")
-         *             .addFields([
-         *                 {
-         *                     name: "Submitter",
-         *                     value: interaction.user.username,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Type",
-         *                     value: type,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Suggestion",
-         *                     value: suggestion,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Why should your suggestion be added? How will this benefit the group?",
-         *                     value: reason,
-         *                     inline: true
-         *                 }
-         *             ])
-         *             .setFooter({text: `Suggestion ID: ${createdSuggestion.id}`})
-         *         ;
-         */
         const id: string = interaction.options.getString("id", true);
         const note: string = interaction.options.getString("note", true);
         if (!interaction.guild) return;
