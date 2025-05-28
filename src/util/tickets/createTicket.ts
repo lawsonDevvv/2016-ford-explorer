@@ -1,3 +1,12 @@
+/**
+ * @file createTicket.ts
+ * @description Handles ticket creation functionality including channel creation,
+ * permission setup, and initial message embedding. This module creates a Discord
+ * channel with proper permissions and records the ticket in the database.
+ * 
+ * @module util/tickets/createTicket
+ */
+
 import {Guild, GuildMember, PermissionsBitField, TextChannel} from "discord.js";
 import {TicketCategories, TicketEmbedColors, TicketGreetingMessages, TicketRoles, ticketType} from "../types/Tickets";
 import {prisma} from "../../Bot";

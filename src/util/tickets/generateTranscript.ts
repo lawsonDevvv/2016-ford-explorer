@@ -1,7 +1,24 @@
+/**
+ * @file generateTranscript.ts
+ * @description Creates a transcript of all messages in a ticket channel.
+ * This module fetches all messages (working around Discord's 100 message limit),
+ * formats them into a readable transcript, and sends the transcript to the
+ * configured logs channel. Messages are sorted with newest first.
+ * 
+ * @module util/tickets/generateTranscript
+ */
+
 import {Collection, Message, TextChannel, AttachmentBuilder} from "discord.js";
 import {prisma} from "../../Bot";
 import {Ticket, TicketSettings} from "@prisma/client";
 
+/**
+ * Generates a transcript of all messages in a ticket channel
+ * @param channel - The ticket channel to generate a transcript for
+ * @throws Error if ticket is not found in the database
+ * @throws Error if ticket settings are not found for the guild
+ * @throws Error if logs channel is not found or is not a text channel
+ */
 export default async (channel: TextChannel) => {
     // Fetch all messages by paginating through them
     const allMessages = new Collection<string, Message<true>>();

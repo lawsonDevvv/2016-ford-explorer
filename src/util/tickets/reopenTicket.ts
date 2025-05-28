@@ -1,3 +1,13 @@
+/**
+ * @file reopenTicket.ts
+ * @description Handles reopening of previously closed tickets.
+ * This module restores ticket channel permissions, renames the channel
+ * back to its original format, and updates the database record to reflect
+ * the open status.
+ * 
+ * @module util/tickets/reopenTicket
+ */
+
 import {Colors, GuildMember, OverwriteType, PermissionsBitField, TextChannel} from "discord.js";
 import {EmbedBuilder} from "@discordjs/builders";
 import {Ticket} from "@prisma/client";
@@ -10,6 +20,14 @@ const createReopenEmbed = (openedBy: GuildMember): EmbedBuilder => {
         .setDescription(`Ticket opened by ${openedBy}.`);
 };
 
+/**
+ * Reopens a closed ticket by restoring permissions and updating database status
+ * @param channel - The ticket channel to reopen
+ * @param member - The guild member reopening the ticket
+ * @returns The updated ticket database entry
+ * @throws Error if ticket is not found in the database
+ * @throws Error if ticket is already open
+ */
 export default async (channel: TextChannel, member: GuildMember) => {
     const ticket: Ticket | null = await prisma.ticket.findFirst({
         where: {
