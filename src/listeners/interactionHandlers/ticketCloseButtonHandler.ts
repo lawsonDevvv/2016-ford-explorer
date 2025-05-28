@@ -1,0 +1,36 @@
+import {ApplyOptions} from "@sapphire/decorators";
+import {Events, Listener, ListenerOptions} from "@sapphire/framework";
+import {GuildMember, Interaction, MessageFlags, TextChannel} from "discord.js";
+import closeTicket from "../../util/tickets/closeTicket";
+import generateTranscript from "../../util/tickets/generateTranscript";
+
+@ApplyOptions<ListenerOptions>({
+    event: Events.InteractionCreate
+})
+export default class extends Listener {
+    public async run(interaction: Interaction) {
+        if (!interaction.isButton()) return;
+        if (interaction.customId !== "closeTicketButton") return;
+        if (!interaction.guild || !interaction.member) return;
+
+        const member = interaction.member as GuildMember;
+
+        try {
+            await closeTicket(interaction.guild, interaction.channel as TextChannel, member, 'No reason specified.');
+            await generateTranscript(interaction.channel as TextChannel);
+            
+            return await interaction.reply({
+                content: "Ticket closed.",
+                flags: [
+                    MessageFlags.Ephemeral
+                ]
+            });
+        } catch (e) {
+            this.container.logger.error(e);
+            return await interaction.reply({
+                content: `Cylinder 6 Misfire \`\`\`${e instanceof Error ? e.message : String(e)}\`\`\``,
+                flags: [MessageFlags.Ephemeral]
+            });
+        }
+    }
+}
