@@ -6,6 +6,12 @@ export enum TicketTypes {
     ReportStaff = 'reportStaff'
 }
 
+export const TicketTypeMetadata = {
+    [TicketTypes.General]: 'General',
+    [TicketTypes.Report]: 'Report',
+    [TicketTypes.ReportStaff]: 'Report Staff'
+}
+
 export const TicketCategories = {
     [TicketTypes.General]: '1216128374548860998',
     [TicketTypes.Report]: '1256032844887621672',
