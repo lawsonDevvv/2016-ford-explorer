@@ -8,7 +8,7 @@
  * @module util/tickets/generateTranscript
  */
 
-import {Collection, Message, TextChannel, AttachmentBuilder} from "discord.js";
+import {Collection, Message, TextChannel, AttachmentBuilder, GuildBasedChannel} from "discord.js";
 import {prisma} from "../../Bot";
 import {Ticket, TicketSettings} from "@prisma/client";
 
@@ -58,7 +58,7 @@ export default async (channel: TextChannel) => {
     if (!ticket) throw new Error(`Ticket not found for channel ${channel.id}`);
     if (!ticketSettings) throw new Error(`Ticket settings not found for guild ${channel.guild.id}`);
 
-    const logsChannel = await channel.guild.channels.fetch(ticketSettings.logsChannel);
+    const logsChannel: GuildBasedChannel | null = await channel.guild.channels.fetch(ticketSettings.logsChannel);
 
     if (!logsChannel) throw new Error(`Logs channel not found for guild ${channel.guild.id}`);
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
