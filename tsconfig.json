@@ -1,7 +1,7 @@
 {
 	"extends": "@sapphire/ts-config",
 	"compilerOptions": {
-	  	"target": "ES2022",
+	  	"target": "ES2024",
 	  	"experimentalDecorators": true,
 	  	"lib": ["DOM"],
 	  	"rootDir": "src",
