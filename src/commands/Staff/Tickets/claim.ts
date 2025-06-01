@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Awaitable, ChatInputCommand, Command, CommandOptions, RegisterBehavior } from "@sapphire/framework";
+import { ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior } from "@sapphire/framework";
 import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder, TextChannel } from "discord.js";
 import { prisma } from "src/Bot";
 
