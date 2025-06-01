@@ -9,14 +9,20 @@
 
 import {Colors, EmbedBuilder, TextChannel, User} from "discord.js";
 import {prisma} from "../../Bot";
+import {ticketType, TicketTypeMetadata} from "../types/Tickets";
 
-const createDeleteLogEmbed = async (user: User, ticketNumber: number) => {
+const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: ticketType) => {
     return new EmbedBuilder()
         .setTitle('Ticket Deleted')
         .addFields([
             {
                 name: 'Ticket No.',
                 value: `${ticketNumber}`,
+                inline: true
+            },
+            {
+                name: 'Ticket Type',
+                value: `${TicketTypeMetadata[type]}`,
                 inline: true
             },
             {
