@@ -17,7 +17,7 @@ export default class extends Listener {
         await interaction.reply("This ticket will be deleted in 5 seconds, please standby while I process your request.");
 
         setTimeout(async () => {
-            await deleteTicket();
+            await deleteTicket(interaction.channel as TextChannel, interaction.user);
         }, 5000);
     }
 }
