@@ -64,7 +64,7 @@ export default async (channel: TextChannel, user: User) => {
 
     await logsChannel.send({
         embeds: [
-            await createDeleteLogEmbed(user, ticket.number)
+            await createDeleteLogEmbed(user, ticket.number, ticket.type as ticketType)
         ]
     });
 
