@@ -66,5 +66,7 @@ export default async (channel: TextChannel, user: User) => {
         embeds: [
             await createDeleteLogEmbed(user, ticket.number)
         ]
-    })
+    });
+
+    await channel.delete(`Ticket deleted by ${user.displayName} (${user.username} | ${user.id})`);
 }
