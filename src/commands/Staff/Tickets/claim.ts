@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior } from "@sapphire/framework";
 import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder, TextChannel } from "discord.js";
-import { prisma } from "src/Bot";
+import { prisma } from "../../../Bot";
 
 @ApplyOptions<CommandOptions>({
     description: "Claim a ticket.",
