@@ -1,6 +1,6 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
-import {GuildMember, Interaction, MessageFlags} from "discord.js";
+import {GuildMember, MessageFlags, StringSelectMenuInteraction} from "discord.js";
 import createTicket from "../../util/tickets/createTicket";
 import {ticketType} from "../../util/types/Tickets";
 import {Ticket} from "@prisma/client";
@@ -9,7 +9,7 @@ import {Ticket} from "@prisma/client";
     event: Events.InteractionCreate
 })
 export default class extends Listener {
-    public async run(interaction: Interaction) {
+    public async run(interaction: StringSelectMenuInteraction) {
         if (!interaction.isStringSelectMenu()) return;
         if (interaction.customId !== "createTicketButton") return;
         if (!interaction.guild || !interaction.member) return;

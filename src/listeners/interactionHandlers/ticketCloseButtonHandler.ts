@@ -1,6 +1,6 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
-import {GuildMember, Interaction, MessageFlags, TextChannel} from "discord.js";
+import {ButtonInteraction, GuildMember, MessageFlags, TextChannel} from "discord.js";
 import closeTicket from "../../util/tickets/closeTicket";
 import generateTranscript from "../../util/tickets/generateTranscript";
 
@@ -8,7 +8,7 @@ import generateTranscript from "../../util/tickets/generateTranscript";
     event: Events.InteractionCreate
 })
 export default class extends Listener {
-    public async run(interaction: Interaction) {
+    public async run(interaction: ButtonInteraction) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "closeTicketButton") return;
         if (!interaction.guild || !interaction.member) return;
