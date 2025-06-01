@@ -14,6 +14,8 @@ export default class extends Listener {
         if (interaction.customId !== "createTicketButton") return;
         if (!interaction.guild || !interaction.member) return;
 
+        await interaction.deferReply();
+
         const member = interaction.member as GuildMember;
 
         if (member.roles.cache.has('1373746940214509740')) return await interaction.reply({

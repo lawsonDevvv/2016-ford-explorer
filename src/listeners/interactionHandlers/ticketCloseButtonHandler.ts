@@ -13,6 +13,8 @@ export default class extends Listener {
         if (interaction.customId !== "closeTicketButton") return;
         if (!interaction.guild || !interaction.member) return;
 
+        await interaction.deferReply();
+
         const member = interaction.member as GuildMember;
 
         try {

@@ -13,6 +13,8 @@ export default class extends Listener {
         if (!interaction.guild || !interaction.member) return;
         if (!(interaction.channel instanceof TextChannel)) return;
 
+        await interaction.deferReply();
+
         await reopenTicket(interaction.channel, interaction.member as GuildMember)
             .catch(async (e) => {
                 this.container.logger.error(e);
