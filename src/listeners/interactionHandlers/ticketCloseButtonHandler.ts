@@ -13,7 +13,11 @@ export default class extends Listener {
         if (interaction.customId !== "closeTicketButton") return;
         if (!interaction.guild || !interaction.member) return;
 
-        await interaction.deferReply();
+        await interaction.deferReply({
+            flags: [
+                MessageFlags.Ephemeral
+            ]
+        });
 
         const member = interaction.member as GuildMember;
 
@@ -21,17 +25,13 @@ export default class extends Listener {
             await closeTicket(interaction.guild, interaction.channel as TextChannel, member, 'No reason specified.');
             await generateTranscript(interaction.channel as TextChannel);
             
-            return await interaction.reply({
-                content: "Ticket closed.",
-                flags: [
-                    MessageFlags.Ephemeral
-                ]
+            return await interaction.editReply({
+                content: "Ticket closed."
             });
         } catch (e) {
             this.container.logger.error(e);
-            return await interaction.reply({
-                content: `Cylinder 6 Misfire \`\`\`${e instanceof Error ? e.message : String(e)}\`\`\``,
-                flags: [MessageFlags.Ephemeral]
+            return await interaction.editReply({
+                content: `Cylinder 6 Misfire \`\`\`${e instanceof Error ? e.message : String(e)}\`\`\``
             });
         }
     }

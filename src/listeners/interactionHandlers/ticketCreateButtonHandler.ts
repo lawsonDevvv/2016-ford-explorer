@@ -14,24 +14,21 @@ export default class extends Listener {
         if (interaction.customId !== "createTicketButton") return;
         if (!interaction.guild || !interaction.member) return;
 
-        await interaction.deferReply();
-
-        const member = interaction.member as GuildMember;
-
-        if (member.roles.cache.has('1373746940214509740')) return await interaction.reply({
-            content: "You are ticket blacklisted. No ticket for you :(",
+        await interaction.deferReply({
             flags: [
                 MessageFlags.Ephemeral
             ],
-            tts: true
+        });
+
+        const member = interaction.member as GuildMember;
+
+        if (member.roles.cache.has('1373746940214509740')) return await interaction.editReply({
+            content: "You are ticket blacklisted. No ticket for you :("
         });
 
         const ticket: Ticket = await createTicket(interaction.guild, member, interaction.values[0] as ticketType);
-        return await interaction.reply({
-            content: `Your ticket has been created. <#${ticket.channel}>`,
-            flags: [
-                MessageFlags.Ephemeral
-            ]
+        return await interaction.editReply({
+            content: `Your ticket has been created. <#${ticket.channel}>`
         });
     }
 }

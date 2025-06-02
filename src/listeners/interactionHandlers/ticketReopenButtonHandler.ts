@@ -1,6 +1,6 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
-import {ButtonInteraction, GuildMember, MessageFlags, TextChannel} from "discord.js";
+import {ButtonInteraction, GuildMember, Message, MessageFlags, TextChannel} from "discord.js";
 import reopenTicket from "../../util/tickets/reopenTicket";
 
 @ApplyOptions<ListenerOptions>({
@@ -13,19 +13,22 @@ export default class extends Listener {
         if (!interaction.guild || !interaction.member) return;
         if (!(interaction.channel instanceof TextChannel)) return;
 
-        await interaction.deferReply();
-
-        await reopenTicket(interaction.channel, interaction.member as GuildMember)
-            .catch(async (e) => {
-                this.container.logger.error(e);
-                return await interaction.reply(`Cylinder 6 Misfire \`\`\`${e.message ?? e}\`\`\``);
-            });
-
-        return await interaction.reply({
-            content: "Ticket opened.",
+        await interaction.deferReply({
             flags: [
                 MessageFlags.Ephemeral
             ]
+        });
+
+        await reopenTicket(interaction.channel, interaction.member as GuildMember)
+            .catch(async (e: any): Promise<Message> => {
+                this.container.logger.error(e);
+                return await interaction.editReply({
+                    content: `Cylinder 6 Misfire \`\`\`${e.message ?? e}\`\`\``
+                });
+            });
+
+        return await interaction.editReply({
+            content: "Ticket opened."
         })
     }
 }
