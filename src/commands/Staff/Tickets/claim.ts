@@ -35,6 +35,18 @@ export default class extends Command {
             ]
         });
 
+        if (!ticket) return interaction.editReply({
+            content: "This channel is not a ticket."
+        });
+
+        if (ticket.claimedBy === interaction.user.id) return interaction.editReply({
+            content: "You cannot claim this ticket twice (that would be silly)!"
+        });
+
+        if (ticket.claimedBy && ticket.claimedBy !== interaction.user.id) return interaction.editReply({
+            content: "This ticket has already been claimed by another staff member."
+        });
+
         await interaction.channel.edit({
             name: `claimed-${ticket.number}`
         });
