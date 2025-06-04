@@ -48,7 +48,7 @@ export default class extends Command {
         });
 
         await interaction.channel.edit({
-            name: `claimed-${ticket.number}`
+            name: `claimed-${interaction.user.displayName}-${ticket.number}`
         });
 
         return await interaction.reply({
