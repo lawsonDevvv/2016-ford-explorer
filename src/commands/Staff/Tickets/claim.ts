@@ -47,6 +47,15 @@ export default class extends Command {
             content: "This ticket has already been claimed by another staff member."
         });
 
+        await prisma.ticket.update({
+            where: {
+                id: ticket.id
+            },
+            data: {
+                claimedBy: interaction.user.id
+            }
+        });
+
         await interaction.channel.edit({
             name: `claimed-${interaction.user.displayName}-${ticket.number}`
         });
