@@ -64,8 +64,8 @@ export default async (channel: TextChannel) => {
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
 
     // Sort messages by timestamp (newest first)
-    const sortedMessages: Message<true>[] = Array.from(allMessages.values()).sort((a, b) =>
-        b.createdTimestamp - a.createdTimestamp
+    const sortedMessages: Message<true>[] = Array.from(allMessages.values()).sort((a: Message, b: Message) =>
+        a.createdTimestamp - b.createdTimestamp
     );
 
     const parsedMessagesJson = sortedMessages.map((message: Message<true>) => {
