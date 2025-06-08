@@ -22,6 +22,8 @@ export default class extends Command {
     public async chatInputRun(interaction: ChatInputCommandInteraction) {
         if (!(interaction.channel instanceof TextChannel)) return await interaction.reply("This channel is not a text channel nor a ticket, please do this command in a ticket.");
 
+        await interaction.deferReply();
+
         const ticket = await prisma.ticket.findFirst({
             where: {
                 channel: interaction.channel.id
