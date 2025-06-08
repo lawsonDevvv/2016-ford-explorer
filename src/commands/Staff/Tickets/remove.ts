@@ -57,7 +57,7 @@ export default class extends Command {
 
         const existingOverwrite: PermissionOverwrites | undefined = overwrites.cache.get(user.id);
 
-        if (existingOverwrite && existingOverwrite.allow.has(PermissionFlagsBits.ViewChannel)) return await interaction.editReply({
+        if (!existingOverwrite) return await interaction.editReply({
             content: 'This user does not seem to have been added to the ticket.'
         });
 
