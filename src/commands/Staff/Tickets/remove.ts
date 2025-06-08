@@ -2,7 +2,7 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
 import {
     ChatInputCommandInteraction,
-    Message, PermissionFlagsBits,
+    Message,
     PermissionOverwriteManager, PermissionOverwrites,
     SlashCommandBuilder,
     TextChannel,
@@ -64,7 +64,7 @@ export default class extends Command {
         await overwrites.delete(user.id);
 
         const embed = new EmbedBuilder()
-            .setDescription(`${user} was removed from the ticket.`)
+            .setDescription(`${user} was removed from the ticket.`);
 
         return await interaction.editReply({
             embeds: [embed]
