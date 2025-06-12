@@ -62,6 +62,15 @@ export default async (channel: TextChannel, user: User) => {
     const logsChannel = await channel.guild.channels.fetch(ticketSettings.logsChannel);
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
 
+    await prisma.ticket.update({
+        where: {
+            id: ticket.id
+        },
+        data: {
+            status: TicketStatus.Deleted
+        }
+    });
+
     await logsChannel.send({
         embeds: [
             await createDeleteLogEmbed(user, ticket.number, ticket.type as ticketType)
