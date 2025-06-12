@@ -81,7 +81,7 @@ model Ticket {
   closedAt     DateTime?
   closedReason String?
   transcript   Json?
-  status       Int       @default(0) // 0 = Open, 1 = Closed
+  status       Int       @default(0) // 0 = Open, 1 = Closed, // 2 = Deleted
 
   @@unique([guild, number])
 }
