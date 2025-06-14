@@ -9,7 +9,7 @@
 
 import {Colors, EmbedBuilder, TextChannel, User} from "discord.js";
 import {prisma} from "../../Bot";
-import {ticketType, TicketTypeMetadata} from "../types/Tickets";
+import {TicketStatus, ticketType, TicketTypeMetadata} from "../types/Tickets";
 
 const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: ticketType) => {
     return new EmbedBuilder()
