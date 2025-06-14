@@ -9,6 +9,7 @@ import {prisma} from "../../Bot";
 export default class extends Listener {
     public async run(interaction: ButtonInteraction) {
         if (!interaction.isButton()) return;
+        if (interaction.customId !== 'claimTicketButton') return;
         if (!interaction.guild || !interaction.member) return;
         if (!(interaction.channel instanceof TextChannel)) return;
 
