@@ -1,4 +1,4 @@
-import {ActivityType, type Message, TextChannel} from "discord.js";
+import {ActivityType, type Message} from "discord.js";
 import { LawsonClient } from "./lib/LawsonClient";
 import { PrismaClient } from "@prisma/client";
 export const prisma: PrismaClient = new PrismaClient();
@@ -10,7 +10,6 @@ import * as colorette from "colorette";
 import { config } from "dotenv-cra";
 import { inspect } from "util";
 import * as noblox from 'noblox.js';
-import { scheduleJob } from 'node-schedule'
 
 export const client = new LawsonClient();
 
