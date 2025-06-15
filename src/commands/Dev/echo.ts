@@ -1,9 +1,9 @@
-import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/framework";
+import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {ChatInputCommandInteraction, SlashCommandBuilder, TextChannel} from "discord.js";
 
 @ApplyOptions<CommandOptions>({
-    description: "Echo something into a channel.",
+    description: "BIE_DEADMAN",
     preconditions: ["OwnerOnly"]
 })
 export default class extends Command {
@@ -24,7 +24,7 @@ export default class extends Command {
                     .setRequired(false)
             );
 
-        registry.registerChatInputCommand(builder);
+        registry.registerChatInputCommand(builder, { behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
     }
 
     public async chatInputRun(interaction: ChatInputCommandInteraction) {
