@@ -8,6 +8,8 @@
  *     Lawson
  */
 
+// TODO Rewrite this whole listener cause it's cancerous to society
+
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {ButtonInteraction, GuildMember} from "discord.js";

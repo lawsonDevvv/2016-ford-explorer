@@ -35,34 +35,6 @@ export default class extends Command {
     }
 
     public async chatInputRun(interaction: ChatInputCommandInteraction) {
-        /**
-         * const embed = new EmbedBuilder()
-         *             .setTitle("New Suggestion")
-         *             .addFields([
-         *                 {
-         *                     name: "Submitter",
-         *                     value: interaction.user.username,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Type",
-         *                     value: type,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Suggestion",
-         *                     value: suggestion,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Why should your suggestion be added? How will this benefit the group?",
-         *                     value: reason,
-         *                     inline: true
-         *                 }
-         *             ])
-         *             .setFooter({text: `Suggestion ID: ${createdSuggestion.id}`})
-         *         ;
-         */
         const id: string = interaction.options.getString("id", true);
         const note: string = interaction.options.getString("note", true);
         if (!interaction.guild) return;
@@ -144,7 +116,7 @@ export default class extends Command {
         const channel = interaction.guild.channels.cache.get('1286445249287163914') as ThreadOnlyChannel;
         const thread = await channel.threads.fetch(suggestion.messageId);
         if (!thread) return await interaction.reply("I couldn't find a thread for that suggestion. Did it get deleted?");
-        const message    = await thread.fetchStarterMessage();
+        const message  = await thread.fetchStarterMessage();
         if (!message) return await interaction.reply("That suggestion's thread does not have a starter message. Was it deleted?");
 
         await thread.send(`This suggestion was **accepted** by ${interaction.user.username}.`)
