@@ -36,11 +36,12 @@ const sendReactionRoleEmbed = async (channel: TextChannel) => {
         .setStyle(ButtonStyle.Primary)
         .setCustomId("bullshitPingsButton");
 
-    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton, wallOfShamePingsButton, bullshitPingsButton);
+    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton);
+    const actionRow2 = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(wallOfShamePingsButton, bullshitPingsButton)
 
     await channel.send({
         embeds: [embed],
-        components: [actionRow]
+        components: [actionRow, actionRow2]
     }).catch((err: any) => {
         throw err;
     })
