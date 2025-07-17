@@ -3,6 +3,7 @@ import {Ticket} from "@prisma/client";
 import {prisma} from "../../Bot";
 
 export default async (channel: TextChannel, user: GuildMember) => {
+    if (!user.roles.cache.has('1238455317860323338')) throw new Error("Why would you want to claim your own ticket?");
     const ticket: Ticket | null = await prisma.ticket.findFirst({
         where: {
             channel: channel.id
