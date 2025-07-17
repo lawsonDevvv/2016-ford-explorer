@@ -1,7 +1,7 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
-import {ButtonInteraction, MessageFlags, TextChannel} from "discord.js";
-import {prisma} from "../../Bot";
+import {ButtonInteraction, GuildMember, MessageFlags, TextChannel} from "discord.js";
+import claimTicket from "../../util/tickets/claimTicket";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.InteractionCreate
@@ -19,35 +19,13 @@ export default class extends Listener {
             ]
         });
 
-        const ticket = await prisma.ticket.findFirst({
-            where: {
-                channel: interaction.channel.id
-            }
-        });
-
-        if (!ticket) return interaction.editReply({
-            content: "This channel is not a ticket."
-        });
-
-        if (ticket.claimedBy === interaction.user.id) return interaction.editReply({
-            content: "You cannot claim this ticket twice (that would be silly)!"
-        });
-
-        if (ticket.claimedBy && ticket.claimedBy !== interaction.user.id) return interaction.editReply({
-            content: "This ticket has already been claimed by another staff member."
-        });
-
-        await prisma.ticket.update({
-            where: {
-                id: ticket.id
-            },
-            data: {
-                claimedBy: interaction.user.id,
-            }
-        });
-
-        return await interaction.editReply({
-            content: "Claimed ticket."
-        });
+        try {
+            // Horrible use of type casting but it works so :shrug:
+            await claimTicket(interaction.channel, interaction.member as GuildMember);
+            return await interaction.editReply("Ticket claimed.");
+        } catch (err: any) {
+            if (!(err instanceof Error)) this.container.logger.error(err);
+            return await interaction.editReply(`Cylinder 3 Misfire \`\`\`${err instanceof Error ? err.message : err}\`\`\``);
+        }
     }
 }
