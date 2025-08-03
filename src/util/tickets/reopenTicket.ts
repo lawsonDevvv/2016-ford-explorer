@@ -25,8 +25,8 @@ const createReopenEmbed = (openedBy: GuildMember): EmbedBuilder => {
  * @param channel - The ticket channel to reopen
  * @param member - The guild member reopening the ticket
  * @returns The updated ticket database entry
- * @throws Error if ticket is not found in the database
- * @throws Error if ticket is already open
+ * @throws Error If ticket is not found in the database
+ * @throws Error If ticket is already open
  */
 export default async (channel: TextChannel, member: GuildMember) => {
     const ticket: Ticket | null = await prisma.ticket.findFirst({
