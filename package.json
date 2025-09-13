@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/Bot.js",
   "scripts": {
+    "buildPreserve": "tsc",
     "build": "rimraf ./dist && tsc",
     "start": "node ./dist/Bot.js",
     "nuke": "rimraf ./dist",
