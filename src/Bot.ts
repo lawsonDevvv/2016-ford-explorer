@@ -16,6 +16,7 @@ export const editSnipes = new Map<string, Message[]>();
 
 export const client = new LawsonClient();
 export const apiUrl: string = process.env.API_URL && process.env.API_PORT ? `${process.env.API_URL}:${process.env.API_PORT}` : 'http://localhost:3000'
+process.env.NODE_ENV ??= "development";
 
 config();
 
