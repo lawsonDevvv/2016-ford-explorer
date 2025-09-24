@@ -2,7 +2,7 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
 import {ChatInputCommandInteraction, GuildMember, SlashCommandBuilder} from "discord.js";
 import {blacklistRoles, blacklistType, CaseStatus, CaseTypeMetadata} from "../../util/types/Cases";
-import createCase from "src/util/cases/createCase";
+import createCase from "../../util/cases/createCase";
 import editCase from "../../util/cases/editCase";
 import {prisma} from "../../Bot";
 import {Case} from "@prisma/client";
