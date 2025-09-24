@@ -1,15 +1,18 @@
 import {ActivityType, type Message} from "discord.js";
 import { LawsonClient } from "./lib/LawsonClient";
 import { PrismaClient } from "@prisma/client";
-export const prisma: PrismaClient = new PrismaClient();
-export const snipes = new Map<string, Message>();
-export const editSnipes = new Map<string, Message[]>();
 import "reflect-metadata";
 import "@sapphire/plugin-logger/register";
 import * as colorette from "colorette";
 import { config } from "dotenv-cra";
 import { inspect } from "util";
 import * as noblox from 'noblox.js';
+import {AuthenticatedUserData} from "noblox.js";
+
+export const prisma: PrismaClient = new PrismaClient();
+
+export const snipes = new Map<string, Message>();
+export const editSnipes = new Map<string, Message[]>();
 
 export const client = new LawsonClient();
 export const apiUrl: string = process.env.API_URL && process.env.API_PORT ? `${process.env.API_URL}:${process.env.API_PORT}` : 'http://localhost:3000'
