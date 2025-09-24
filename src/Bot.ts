@@ -29,7 +29,7 @@ colorette.createColors({ useColor: true });
 
         client.logger.info("Connected to database server.");
 
-        const user = await noblox.setCookie(process.env.ROBLOX_COOKIE ?? "0");
+        const user: AuthenticatedUserData = await noblox.setCookie(process.env.ROBLOX_COOKIE ?? "0");
         client.logger.info(`Logged into the ROBLOX API as ${user.name} (${user.id}).`);
 
         await client.login(process.env.TOKEN ?? "0");
