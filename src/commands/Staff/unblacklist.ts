@@ -55,7 +55,7 @@ export default class extends Command {
             .addBooleanOption(
                 o => o
                     .setName("rescind")
-                    .setDescription("Whether to rescind the original case. This will stop it from showing in case records and will have to be manually searched.")
+                    .setDescription("Whether to rescind the original case.")
                     .setRequired(true)
             );
 
