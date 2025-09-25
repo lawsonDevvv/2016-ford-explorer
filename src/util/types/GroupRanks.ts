@@ -1,6 +1,6 @@
 enum GroupRanks {
-    ServerBooster = 'serverbooster',
-    MemberPlus = 'memberplus',
+    Booster = 'booster',
+    MemberPlus = 'memberPlus',
     Member = 'member'
 }
 
