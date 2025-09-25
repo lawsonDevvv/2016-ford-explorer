@@ -2,6 +2,7 @@ import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import {EmojiIdentifierResolvable, Message} from "discord.js";
 import { prisma } from "../Bot";
+import {Counting} from "@prisma/client";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.MessageCreate
@@ -24,11 +25,11 @@ export default class extends Listener {
         }
 
         // Parse message content to a number
-        const numberContent = parseInt(message.content, 10);
+        const numberContent: number = parseInt(message.content, 10);
         if (isNaN(numberContent)) return;
 
         // Fetch counting settings from the database
-        const countingSettings = await prisma.counting.findFirst({ where: { server: message.guild.id } });
+        const countingSettings: Counting | null = await prisma.counting.findFirst({ where: { server: message.guild.id } });
         if (!countingSettings) return;
 
         // Prepare data for updating the database
