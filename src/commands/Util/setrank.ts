@@ -2,13 +2,16 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
 import {
     ChatInputCommandInteraction,
-    InteractionResponse,
     Message,
-    SlashCommandBuilder,
-    TextChannel
+    SlashCommandBuilder
 } from "discord.js";
 import GroupRanks from "../../util/types/GroupRanks";
-import * as noblox from 'noblox.js'
+import {RanksMetadata} from "../../util/types/Ranks";
+import axios, {AxiosResponse} from "axios";
+import {apiUrl, headers} from "../../Bot";
+import {ApiGenericResponse} from "../../util/types/API";
+
+type SetRankOptions = GroupRanks.Member | GroupRanks.MemberPlus | GroupRanks.Booster;
 
 @ApplyOptions<CommandOptions>({
     description: "Set someone's rank in the group.",
@@ -34,7 +37,7 @@ export default class extends Command {
                     .addChoices([
                         {
                             name: "Server Booster",
-                            value: GroupRanks.ServerBooster
+                            value: GroupRanks.Booster
                         },
                         {
                             name: "Member+",
@@ -49,47 +52,39 @@ export default class extends Command {
             )
         ;
 
-        registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
+        registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.VerboseOverwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<InteractionResponse<boolean> | Message<boolean>> {
-        const target: string = interaction.options.getString("username", true);
-        const rank: string = interaction.options.getString("rank", true);
-        const robloxId =  await noblox.getIdFromUsername(target);
-        const logChannel: TextChannel = interaction.guild?.channels.cache.get('1265355234658615296') as TextChannel;
-        const groupId = parseInt(process.env.CMTZ_GROUP!);
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Message<boolean>> {
+        await interaction.deferReply();
 
-        if (!await noblox.getCurrentUser()) {
-            return await interaction.editReply("Cylinder 5 misfire.\n```Roblox session expired or not initialized.```");
-        }
+        const username: string = interaction.options.getString("username", true);
+        const rank: SetRankOptions = interaction.options.getString("rank", true) as SetRankOptions;
 
-        if (!robloxId) return await interaction.reply(`:x: Input did not return a valid Roblox user ID. Make sure you are typing their actual username (not their display name) and **not pinging them**, and that the username is correct.`);
-
-        if (await noblox.getRankInGroup(groupId, robloxId) === 0) {
-            return await interaction.reply("Cylinder 6 misfire.\n\`\`\`Target user not in group.\`\`\`");
-        }
-
-        await interaction.reply("Hold on. Roblox is slow, this may take a while.");
+        // I don't fully understand how this works, and so I don't expect you to know how it works either
+        const rankToGive = RanksMetadata[rank];
 
         try {
-            if (rank === GroupRanks.ServerBooster) {
-                await noblox.setRank(groupId, robloxId, "Booster");
-                await logChannel.send(`${target} was given group rank Server Booster by ${interaction.user}.`);
-                return await interaction.editReply(`Set ${target}'s rank to Server Booster. Run /update to update roles.`);
-            } else if (rank === GroupRanks.MemberPlus) {
-                await noblox.setRank(groupId, robloxId, "M+");
-                await logChannel.send(`${target} was given group rank Member+ by ${interaction.user}.`);
-                return await interaction.editReply(`Set ${target}'s rank to Member+. Run /update to update roles.`);
-            } else if (rank === GroupRanks.Member) {
-                await noblox.setRank(groupId, robloxId, "Member");
-                await logChannel.send(`${target} was given group rank Member by ${interaction.user}.`);
-                return await interaction.editReply(`Set ${target}'s rank to Member. Run /update to update roles.`);
-            }
-        } catch (e: any) {
-            console.error("Rank change error:", e);
-            return await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${e}\`\`\``);
-        }
+            const response: AxiosResponse = await axios.post<ApiGenericResponse>(
+                `${apiUrl}/ranking/setRank`,
+                {
+                    username,
+                    rank: rankToGive,
+                    reason: `/setRank ran by ${interaction.user.username}`
+                },
+                { headers }
+            );
 
-        return await interaction.editReply("Cylinder 1 misfire. This isn't even supposed to happen. Ping a staff member.");
+            return await interaction.editReply(`${response.data.message ?? ':thumbs_up:'}`);
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                if (!err.status) this.container.logger.error(err);
+                if (err.status === 418) {
+                    return await interaction.editReply(`I_AM_A_TEAPOT (NO_COFFEE) \`\`\`${err.status} You can't set a person's rank to the same rank. That would be silly!\`\`\``);
+                }
+                return await interaction.editReply(`CBTC_DEADMAN (CBTC_BIE) \`\`\`${err.status} ${err.response?.statusText ?? 'No status text'}\`\`\``);
+            }
+            throw err;
+        }
     }
 }
