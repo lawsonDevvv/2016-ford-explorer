@@ -10,7 +10,7 @@ import {
 import {EmbedBuilder} from "@discordjs/builders";
 import {prisma} from "../../Bot";
 import ShortUniqueId from "short-unique-id";
-import SuggestionThreadTags from "../../util/types/suggestionThreadTags";
+import SuggestionThreadTags from "../../util/types/SuggestionThreadTags";
 const { randomUUID } = new ShortUniqueId({ length: 10 });
 @ApplyOptions<ListenerOptions>({
     event: Events.InteractionCreate
