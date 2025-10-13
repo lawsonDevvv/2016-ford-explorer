@@ -1,13 +1,3 @@
-/**
- * I am completely cognitive of how horrible this code is.
- * No, I do not plan on rewriting this any time soon.
- * It works as is, and if I try to fix it, it will break.
- * If this file becomes a problem at some point, let me know.
- *
- * Yours truly,
- *     Lawson
- */
-
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {ApplyOptions} from "@sapphire/decorators";
 import {ButtonInteraction, GuildMemberRoleManager, MessageFlags, Role} from "discord.js";
