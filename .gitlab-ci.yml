@@ -1,10 +1,21 @@
 stages:
   - build
 
-build:
+variables:
+  # Use a specific Node.js version
+  NODE_VERSION: "16"
+
+build_project:
   stage: build
-  image: node:22 # or whatever Node version your bot needs
-  before_script:
-    - npm ci
+  image: node:$NODE_VERSION
   script:
-    - npm run build # runs "tsc" if you have it in your package.json
+    - echo "Installing dependencies..."
+    - npm install
+    - echo "Building the TypeScript project..."
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - main  # Run this job only for the main branch (adjust as needed)
+

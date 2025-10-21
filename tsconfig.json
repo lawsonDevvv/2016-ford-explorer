@@ -1,9 +1,9 @@
 {
 	"extends": "@sapphire/ts-config",
 	"compilerOptions": {
-	  	"target": "es2022",
+	  	"target": "ES2022",
 	  	"experimentalDecorators": true,
-	  	"lib": ["ES2022"],
+	  	"lib": ["DOM"],
 	  	"rootDir": "src",
 	  	"outDir": "dist",
 	  	"tsBuildInfoFile": "dist/.tsbuildinfo",
@@ -11,8 +11,7 @@
 	  	"resolveJsonModule": true,
 	  	"composite": true,
 		"skipLibCheck": true,
-		"moduleResolution": "NodeNext",
-		"types": ["node", "jest"]
+		"moduleResolution": "NodeNext"
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]

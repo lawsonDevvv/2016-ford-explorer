@@ -54,38 +54,10 @@ model GiveawayParticipant {
   @@unique([giveawayId, userId]) // Ensures a user can participate only once in a giveaway
 }
 
-model Case {
-  id          Int      @id @unique @default(autoincrement())
-  createdAt   DateTime @default(now())
-  editedAt    DateTime @updatedAt
-  guild       String
-  user        String
-  type        Int
-  reason      String?  @default("No reason provided")
-  staffMember String
-  status      Int      @default(0) // 0 = Open, 1 = Closed, Rescinded = 2
-}
-
-model TicketSettings {
-  id            Int    @id @unique @default(autoincrement())
-  guild         String @unique
-  ticketCounter Int    @default(0)
-  logsChannel   String @default("0")
-}
-
-model Ticket {
-  id           Int       @id @unique @default(autoincrement())
-  user         String
-  guild        String
-  type         String
-  channel      String
-  number       Int
-  claimedBy    String?
-  closedBy     String?
-  closedAt     DateTime?
-  closedReason String?
-  transcript   Json?
-  status       Int       @default(0) // 0 = Open, 1 = Closed, // 2 = Deleted
-
-  @@unique([guild, number])
+model CountingBlacklist {
+  id        Int     @id @unique @default(autoincrement())
+  user      String
+  reason    String
+  moderator String
+  active    Boolean
 }
