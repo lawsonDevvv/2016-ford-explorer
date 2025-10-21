@@ -32,16 +32,19 @@ export default class extends Command {
         const typeInput = new TextInputBuilder()
             .setCustomId('typeInput')
             .setLabel("What type of suggestion is this?")
+            .setMaxLength(6)
             .setPlaceholder("Server/Game")
             .setStyle(TextInputStyle.Short)
 
         const suggestionInput = new TextInputBuilder()
             .setCustomId('suggestionInput')
             .setLabel("What\'s your suggestion?")
+            .setMaxLength(191)
             .setStyle(TextInputStyle.Paragraph)
 
         const reasonInput = new TextInputBuilder()
             .setCustomId('reasonInput')
+            .setMaxLength(191)
             .setLabel("Why should your suggestion be added?")
             .setStyle(TextInputStyle.Short)
 

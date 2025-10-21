@@ -1,7 +1,7 @@
 import {ActionRowBuilder, ButtonStyle, MessageActionRowComponentBuilder, TextChannel} from "discord.js";
 import {ButtonBuilder, EmbedBuilder} from "@discordjs/builders";
 
-const roleSelectionPanel = (channel: TextChannel) => {
+const sendReactionRoleEmbed = async (channel: TextChannel) => {
     const embed = new EmbedBuilder()
         .setTitle("Role Selection")
         .setDescription("To receive a role, select it here. If you would like to have the role removed, select the button again.")
@@ -24,14 +24,33 @@ const roleSelectionPanel = (channel: TextChannel) => {
         .setStyle(ButtonStyle.Primary)
         .setCustomId("eventPingsButton");
 
-    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton);
+    const trainingPings = new ButtonBuilder()
+        .setLabel("Training Pings")
+        .setEmoji({name: '👷'})
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("trainingPingsButton");
 
-    channel.send({
+    const wallOfShamePingsButton = new ButtonBuilder()
+        .setLabel("Wall of Shame Pings")
+        .setEmoji({name: '🤡'})
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("wallOfShamePingsButton");
+
+    const bullshitPingsButton = new ButtonBuilder()
+        .setLabel("Bullshit Pings")
+        .setEmoji({name: '💩'})
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("bullshitPingsButton");
+
+    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(devPingsButton, announcementPingsButton, runPingsButton);
+    const actionRow2 = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(trainingPings, wallOfShamePingsButton, bullshitPingsButton)
+
+    await channel.send({
         embeds: [embed],
-        components: [actionRow]
+        components: [actionRow, actionRow2]
     }).catch((err: any) => {
         throw err;
     })
 }
 
-export default roleSelectionPanel;
+export default sendReactionRoleEmbed;
