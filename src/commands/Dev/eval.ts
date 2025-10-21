@@ -1,7 +1,8 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { CommandOptions, Command, ApplicationCommandRegistry, RegisterBehavior } from "@sapphire/framework";
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-
+//@ts-ignore
+import sendReactionRoleEmbed from "../../scripts/sendReactionRoleEmbed";
 
 @ApplyOptions<CommandOptions>({
     preconditions: ["OwnerOnly"],
@@ -30,9 +31,9 @@ export default class EvalCommand extends Command {
         const code = interaction.options.getString("code", true);
         
         try {
-            const evaled = eval(code);
+            const evaluated = eval(code);
             
-            return await interaction.reply({ content: `${evaled}` });
+            return await interaction.reply({ content: `${evaluated}` });
         } catch (error) {
             return await interaction.reply({ content: `**Error: ${error}**`});
         }

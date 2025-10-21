@@ -6,7 +6,14 @@ import {
     InteractionResponse, Message,
     SlashCommandBuilder
 } from "discord.js";
-import * as noblox from 'noblox.js';
+import axios, {AxiosResponse, HttpStatusCode} from "axios";
+import {apiUrl, headers} from "../../Bot";
+import {
+    ApiGenericResponse,
+    ApiGetRankByUsernameSuccessResponse,
+    ApiMemberPlusCheckSuccessResponse
+} from "../../util/types/API";
+import {Ranks, RanksMetadata} from "../../util/types/Ranks";
 
 @ApplyOptions<CommandOptions>({
     description: "Check if they own the Member+ pass.",
@@ -32,38 +39,49 @@ export default class extends Command {
             )
         ;
 
-        registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.Overwrite});
+        registry.registerChatInputCommand(builder, {behaviorWhenNotIdentical: RegisterBehavior.VerboseOverwrite});
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<void | InteractionResponse<boolean> | Message<boolean>> {
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<void | InteractionResponse | Message> {
+        await interaction.deferReply();
         const username: string = interaction.options.getString("username", true);
-        const robloxId: number = await noblox.getIdFromUsername(username);
+        const user: GuildMember | null = interaction.options.getMember("discord_user") as GuildMember | null;
 
-        if (!robloxId) return await interaction.reply(`:x: Input did not return a valid Roblox user ID. Make sure you are typing their actual username (not their display name) and **not pinging them**, and that the username is correct.`);
-        const user = interaction.options.getMember("discord_user") as GuildMember;
-        let ownsGamePass: boolean = await noblox.getOwnership(robloxId, 696671931, "GamePass")
-        if (await noblox.getRankInGroup(parseInt(process.env.CMTZ_GROUP??"0"), robloxId) > 1) {
-            return await interaction.reply(":question: User is already above rank 2 (above Member). Are you running this command on the right user?")
-        }
-        await interaction.reply("Hold on. Roblox is slow, this may take a while..")
+        try {
+            const getRankResponse: AxiosResponse<ApiGetRankByUsernameSuccessResponse> = await axios.get<ApiGetRankByUsernameSuccessResponse>(
+                `${apiUrl}/ranking/getRankByUsername?username=${username}`,
+                { headers }
+            );
 
-        if (ownsGamePass) {
-            return noblox.changeRank(parseInt(process.env.CMTZ_GROUP??"0"), robloxId, 1)
-                .then(async _ => {
-                    if (user) {
-                        user.roles.add(['1200892438470991914', '1219419344589819905'])
-                            .catch(async __ => {
-                                return interaction.editReply(`Cylinder 6 Misfire\n\nRanked ${username} in the group, but failed to set their Discord roles.`)
-                            })
-                    }
-                    await interaction.editReply(`:thumbsup: Changed ${username}'s rank from Member to Member+.`);
-                })
-                .catch(async (err: Error) => {
-                    await interaction.editReply(`Cylinder 6 misfire.\n\`\`\`${err.name}: ${err.message}\`\`\``)
-                    this.container.logger.error(err);
-                })
-        } else {
-            return await interaction.editReply(`:thumbsdown: I didn't find the Member+ asset ID in their inventory.`)
+            if (getRankResponse.data.rank >= Ranks.MemberPlus) return interaction.editReply(`User is already at or above the rank of Member+, ranking them would be a demotion. TRAIN_OPERATOR_ZONE_OVERRIDE (BIE)`);
+
+            const memberPlusResponse: AxiosResponse<ApiMemberPlusCheckSuccessResponse> = await axios.get<ApiMemberPlusCheckSuccessResponse>(
+                `${apiUrl}/ranking/memberPlusCheck?username=${username}`,
+                { headers }
+            );
+
+            if (!memberPlusResponse.data.ownsGamePass) return interaction.editReply(`No GamePass found in the user's inventory. CBTC_NO_EPIC_PASS (CBTC_AUTH_ERROR)`);
+
+            await axios.post<ApiGenericResponse>(
+                `${apiUrl}/ranking/setRank`,
+                {
+                    username,
+                    rank: Ranks.MemberPlus
+                },
+                { headers }
+            );
+
+            if (user) await user.roles.add(['1200892438470991914', '1219419344589819905']);
+
+            return interaction.editReply(`Set ${username}'s rank to ${RanksMetadata[Ranks.MemberPlus]}.`);
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                if (!err.status) return this.container.logger.error(err);
+                if (err.status === HttpStatusCode.ImATeapot) {
+                    return await interaction.editReply(`I_AM_A_TEAPOT (NO_COFFEE) \`\`\`${err.status} You can't set a person's rank to the same rank. That would be silly!\`\`\``);
+                }
+                return await interaction.editReply(`CBTC_DEADMAN (CBTC_BIE) \`\`\`${err.response?.status ?? 0o00} ${err.response?.data.message ?? 'No status text'}\`\`\``);
+            } else throw err;
         }
     }
 }
