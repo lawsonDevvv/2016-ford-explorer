@@ -2,6 +2,7 @@ import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import {EmojiIdentifierResolvable, Message} from "discord.js";
 import { prisma } from "../Bot";
+import {Counting} from "@prisma/client";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.MessageCreate
@@ -9,14 +10,14 @@ import { prisma } from "../Bot";
 export default class extends Listener {
     public async run(message: Message): Promise<void> {
         // Check if the message is in a guild (not a DM)
-        if (!message.guild || message.author.bot || message.channel.id !== "1281993412396191847") return;
+        if (!message.guild || !message.member|| message.author.bot || message.channel.id !== "1281993412396191847") return;
 
         const regex = /^([0-9]|[1-9][0-9]{1,7}|100000000)$/;
 
         // If message doesn't match the counting format, delete it
         if (!regex.test(message.content)) {
             try {
-                await message.delete();
+                if (!message.member.roles.cache.has("1238455317860323338")) await message.delete();
             } catch (err) {
                 this.container.logger.error("Failed to delete message:", err);
             }
@@ -24,11 +25,11 @@ export default class extends Listener {
         }
 
         // Parse message content to a number
-        const numberContent = parseInt(message.content, 10);
+        const numberContent: number = parseInt(message.content, 10);
         if (isNaN(numberContent)) return;
 
         // Fetch counting settings from the database
-        const countingSettings = await prisma.counting.findFirst({ where: { server: message.guild.id } });
+        const countingSettings: Counting | null = await prisma.counting.findFirst({ where: { server: message.guild.id } });
         if (!countingSettings) return;
 
         // Prepare data for updating the database

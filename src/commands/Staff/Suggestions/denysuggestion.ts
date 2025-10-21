@@ -1,20 +1,20 @@
-import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/framework";
-import {ApplyOptions} from "@sapphire/decorators";
+import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import { ApplyOptions } from "@sapphire/decorators";
 import {
     ChatInputCommandInteraction,
     Colors,
     SlashCommandBuilder,
     ThreadOnlyChannel
 } from "discord.js";
-import {client, prisma} from "../../../Bot";
-import {EmbedBuilder} from "@discordjs/builders";
+import { client, prisma } from "../../../Bot";
+import { EmbedBuilder } from "@discordjs/builders";
 
 @ApplyOptions<CommandOptions>({
     description: "Deny a suggestion.",
     preconditions: ["Staff"]
 })
 export default class extends Command {
-    public registerApplicationCommands(registry:ApplicationCommandRegistry): void {
+    public registerApplicationCommands(registry: ApplicationCommandRegistry): void {
         const builder = new SlashCommandBuilder()
             .setName(this.name)
             .setDescription(this.description)
@@ -35,40 +35,21 @@ export default class extends Command {
     }
 
     public async chatInputRun(interaction: ChatInputCommandInteraction) {
-        /**
-         * const embed = new EmbedBuilder()
-         *             .setTitle("New Suggestion")
-         *             .addFields([
-         *                 {
-         *                     name: "Submitter",
-         *                     value: interaction.user.username,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Type",
-         *                     value: type,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Suggestion",
-         *                     value: suggestion,
-         *                     inline: false
-         *                 },
-         *                 {
-         *                     name: "Why should your suggestion be added? How will this benefit the group?",
-         *                     value: reason,
-         *                     inline: true
-         *                 }
-         *             ])
-         *             .setFooter({text: `Suggestion ID: ${createdSuggestion.id}`})
-         *         ;
-         */
         const id: string = interaction.options.getString("id", true);
         const note: string = interaction.options.getString("note", true);
         if (!interaction.guild) return;
 
         const suggestion = await prisma.suggestion.findUnique({
-            where: { id }
+            where: { id },
+            select: {
+                id: true,
+                type: true,
+                suggestion: true,
+                reason: true,
+                author: true,
+                createdAt: true,
+                messageId: true,
+            }
         }).catch(async (error: any): Promise<undefined> => {
             if (error.code === "P2025") {
                 await interaction.reply("Cylinder 6 Misfire ```404 Suggestion not found.```");
@@ -83,6 +64,10 @@ export default class extends Command {
                     status: "Denied",
                     staffResponse: note,
                     editedBy: interaction.user.id
+                },
+                select: {
+                    id: true,
+                    type: true
                 }
             }).catch(async (error: any) => {
                 this.container.logger.error(error);
@@ -91,7 +76,7 @@ export default class extends Command {
             });
 
             if (!updatedSuggestion) {
-                return await interaction.reply("Cylinder 1 Misfire \`\`\`Error Code: NovemberFiveFoxtrot\`\`\`");
+                return;
             }
 
             const embed = new EmbedBuilder()
@@ -104,7 +89,7 @@ export default class extends Command {
                     },
                     {
                         name: "Type",
-                        value: updatedSuggestion.type,
+                        value: updatedSuggestion.type || suggestion.type || "Unknown", // Add fallback
                         inline: false
                     },
                     {
@@ -118,12 +103,12 @@ export default class extends Command {
                         inline: true
                     },
                     {
-                        name: `:white_check_mark: Your suggestion was denied by ${interaction.user.username}`,
+                        name: `:x: Your suggestion was denied by ${interaction.user.username}`,
                         value: `${note}`,
                         inline: false
                     }
                 ])
-                .setFooter({text: `#${updatedSuggestion.id}`})
+                .setFooter({ text: `#${updatedSuggestion.id}` })
                 .setTimestamp(suggestion.createdAt)
                 .setColor(Colors.Red);
 
@@ -134,7 +119,7 @@ export default class extends Command {
             if (!message) return await interaction.reply("That suggestion's thread does not have a starter message. Was it deleted?");
 
             await thread.send(`This suggestion was **denied** by ${interaction.user.username}.`)
-            await message.edit({embeds: [embed]})
+            await message.edit({ embeds: [embed] })
                 .catch(async (error: any) => {
                     this.container.logger.error(error);
                     await message.reply("An error occurred while editing the suggestion message. Please contact the developer.")
@@ -143,7 +128,7 @@ export default class extends Command {
             const author = await client.users.fetch(suggestion.author);
             await author.send(`Your [suggestion](${message.url}) (${suggestion.id}) was **denied**.`)
 
-            return await interaction.reply(":white_check_mark:")
+            return await interaction.reply(":white_check_mark:");
         } else return await interaction.reply(`Cylinder 6 Misfire \`\`\`Error fetching suggestion #${id}\`\`\``);
     }
 }
