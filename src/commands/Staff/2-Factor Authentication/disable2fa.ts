@@ -15,7 +15,7 @@ type authenticationMethod = "2fa" | "backup";
 
 @ApplyOptions<CommandOptions>({
     description: "Disable 2-Factor Authentication",
-    preconditions: ["HeadAdmin", "Staff"]
+    preconditions: ["HighRank", "Staff"]
 })
 export default class extends Command {
     public registerApplicationCommands(registry: ApplicationCommandRegistry): void {
@@ -52,7 +52,7 @@ export default class extends Command {
         });
         if (!backupCode) return interaction.editReply("2FA is not enabled for you.");
 
-        const authenticationMethod = interaction.options.getString("authMethod", true) as authenticationMethod;
+        const authenticationMethod = interaction.options.getString("authmethod", true) as authenticationMethod;
 
         /* Self-explanatory switch statement to handle different authentication methods */
         switch (authenticationMethod) {
