@@ -2,7 +2,6 @@ import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/fra
 import {
     ChatInputCommandInteraction,
     Message,
-    MessageFlags,
     ModalBuilder,
     SlashCommandBuilder,
     TextInputStyle
@@ -43,8 +42,6 @@ export default class extends Command {
     }
 
     public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Message | undefined> {
-        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-
         const backupCode: BackupCode | null = await prisma.backupCode.findUnique({
             where: {
                 userId: interaction.user.id
