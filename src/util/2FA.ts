@@ -2,6 +2,9 @@ import * as crypto from "node:crypto";
 import { encode } from "hi-base32";
 import { authenticator } from "otplib";
 import QRCode from "qrcode";
+import {User} from "discord.js";
+import {BackupCode} from "@prisma/client";
+import {prisma} from "../Bot";
 
 const MASTER_KEY: string = process.env.OTP_MASTER_KEY!;
 if (!MASTER_KEY) throw new Error("MASTER_KEY env var required");
@@ -63,4 +66,16 @@ export const generateQRCode = (text: string): Promise<Buffer> => {
     return QRCode.toBuffer(text);
 }
 
+/**
+ * Get a user's hashed backup code
+ * @param user User
+ * @returns {Promise<BackupCode | null>}
+ */
+export const getBackupCode = async (user: User): Promise<BackupCode | null> => {
+    return prisma.backupCode.findUnique({
+        where: {
+            userId: user.id
+        }
+    })
+}
 

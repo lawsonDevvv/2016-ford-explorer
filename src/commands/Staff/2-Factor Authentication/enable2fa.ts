@@ -9,7 +9,13 @@ import {
     User
 } from "discord.js";
 import bcrypt from "bcryptjs";
-import {deriveSecretFromUser, generateBackupKey, generateOTPAuthURI, generateQRCode} from "../../../util/2FA";
+import {
+    deriveSecretFromUser,
+    generateBackupKey,
+    generateOTPAuthURI,
+    generateQRCode,
+    getBackupCode
+} from "../../../util/2FA";
 import { prisma } from "../../../Bot";
 import { BackupCode } from "@prisma/client";
 
@@ -33,7 +39,7 @@ export default class extends Command {
     public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Message> {
         await interaction.deferReply({ flags: [ MessageFlags.Ephemeral ] });
 
-        const existingBackupCode: BackupCode | null = await this.getBackupCode(interaction.user);
+        const existingBackupCode: BackupCode | null = await getBackupCode(interaction.user);
         if (existingBackupCode) {
             return await interaction.editReply(
                 `You already have 2FA enabled.\n` +
@@ -78,17 +84,5 @@ export default class extends Command {
         });
     }
 
-    /**
-     * Get a user's hashed backup code
-     * @param user User
-     * @returns {Promise<BackupCode | null>}
-     * @private
-     */
-    private async getBackupCode(user: User): Promise<BackupCode | null> {
-        return prisma.backupCode.findUnique({
-            where: {
-                userId: user.id
-            }
-        })
-    }
+
 }
