@@ -89,3 +89,10 @@ model Ticket {
 
   @@unique([guild, number])
 }
+
+model BackupCode {
+  id        Int      @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    String   @unique
+  code      String   @unique
+}
