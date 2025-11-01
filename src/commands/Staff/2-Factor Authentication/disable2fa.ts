@@ -15,7 +15,7 @@ type authenticationMethod = "2fa" | "backup";
 
 @ApplyOptions<CommandOptions>({
     description: "Disable 2-Factor Authentication",
-    preconditions: ["HeadAdmin", "Staff"]
+    preconditions: ["HighRank", "Staff"]
 })
 export default class extends Command {
     public registerApplicationCommands(registry: ApplicationCommandRegistry): void {
