@@ -1,6 +1,6 @@
 import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/framework";
 import {
-    ChatInputCommandInteraction,
+    ChatInputCommandInteraction, InteractionResponse,
     Message,
     ModalBuilder,
     SlashCommandBuilder,
@@ -41,13 +41,13 @@ export default class extends Command {
         registry.registerChatInputCommand(builder);
     }
 
-    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Message | undefined> {
+    public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<InteractionResponse | Message | undefined> {
         const backupCode: BackupCode | null = await prisma.backupCode.findUnique({
             where: {
                 userId: interaction.user.id
             }
         });
-        if (!backupCode) return interaction.editReply("2FA is not enabled for you.");
+        if (!backupCode) return await interaction.reply("2FA is not enabled for you.");
 
         const authenticationMethod = interaction.options.getString("authmethod", true) as authenticationMethod;
 
