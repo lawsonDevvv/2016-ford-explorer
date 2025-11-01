@@ -79,3 +79,10 @@ export const getBackupCode = async (user: User): Promise<BackupCode | null> => {
     })
 }
 
+export const deleteBackupCode = async (user: User): Promise<BackupCode> => {
+    return prisma.backupCode.delete({
+        where: {
+            userId: user.id
+        }
+    });
+}
