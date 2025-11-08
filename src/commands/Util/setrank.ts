@@ -5,8 +5,7 @@ import {
     Message,
     SlashCommandBuilder
 } from "discord.js";
-import GroupRanks from "../../util/types/GroupRanks";
-import {RanksMetadata} from "../../util/types/Ranks";
+import GroupRanks, {RanksMetadata} from "../../util/types/Ranks";
 import axios, {AxiosResponse} from "axios";
 import {apiUrl, headers} from "../../Bot";
 import {ApiGenericResponse} from "../../util/types/API";

@@ -56,3 +56,11 @@ export const RanksMetadata = {
     founderCeo: Ranks.FounderCEO,
     owner: Ranks.Owner,
 };
+
+enum GroupRanks {
+    Booster = 'booster',
+    MemberPlus = 'memberPlus',
+    Member = 'member'
+}
+
+export default GroupRanks;
