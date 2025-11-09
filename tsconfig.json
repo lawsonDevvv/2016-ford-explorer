@@ -1,5 +1,5 @@
 {
-	"extends": "@sapphire/ts-config",
+	"extends": "./node_modules/@sapphire/ts-config/src/tsconfig.json",
 	"compilerOptions": {
 	  	"target": "es2022",
 	  	"experimentalDecorators": true,
@@ -7,10 +7,10 @@
 	  	"rootDir": "src",
 	  	"outDir": "dist",
 	  	"tsBuildInfoFile": "dist/.tsbuildinfo",
-	  	"baseUrl": ".",
 	  	"resolveJsonModule": true,
 	  	"composite": true,
 		"skipLibCheck": true,
+		"module": "nodenext",
 		"moduleResolution": "NodeNext",
 		"types": ["node", "jest"]
 	},
