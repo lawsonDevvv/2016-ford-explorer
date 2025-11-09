@@ -45,7 +45,6 @@ export default class extends Command {
                     .setDescription("Whether to include all known alt accounts.")
                     .setRequired(true)
             )
-
             .addStringOption(
                 o => o
                     .setName("game")
