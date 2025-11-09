@@ -19,6 +19,26 @@ export enum Ranks {
     Owner = 255
 }
 
+export enum GroupRanks {
+    Booster = 'booster',
+    MemberPlus = 'memberPlus',
+    Member = 'member'
+}
+
+export enum UniverseID {
+    FultonStreet = 6877448005,
+    TheRockaways = 5523418888
+}
+
+export type CMTZUniverse = "fultonSt" | "theRockaways";
+
+export const UniverseIDMetadata = {
+    [UniverseID.FultonStreet]: "Fulton Street",
+    [UniverseID.TheRockaways]: "The Rockaways",
+    fultonSt: UniverseID.FultonStreet,
+    theRockaways: UniverseID.TheRockaways
+}
+
 export const RanksMetadata = {
     [Ranks.Guest]: "Guest",
     [Ranks.Member]: "Member",
@@ -57,10 +77,31 @@ export const RanksMetadata = {
     owner: Ranks.Owner,
 };
 
-enum GroupRanks {
-    Booster = 'booster',
-    MemberPlus = 'memberPlus',
-    Member = 'member'
+export interface GameJoinRestriction {
+    active: false,
+    startTime: Date,
+    duration?: number;
+    privateReason: string,
+    displayReason: string,
+    excludeAltAccounts: true,
+    inherited: boolean
 }
 
-export default GroupRanks;
+export interface MinimalGameJoinRestriction {
+    active: false
+}
+
+export interface VerboseGameJoinRestriction extends GameJoinRestriction {
+    path: string,
+    user: string
+}
+
+export interface APIBanResponse {
+    gameJoinRestriction: GameJoinRestriction
+    nextPageToken: string,
+}
+
+export interface APIUnbanResponse {
+    gameJoinRestriction: MinimalGameJoinRestriction
+}
+
