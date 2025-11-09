@@ -13,7 +13,8 @@ import {
     ApiGetRankByUsernameSuccessResponse,
     ApiMemberPlusCheckSuccessResponse
 } from "../../util/types/API";
-import {Ranks, RanksMetadata} from "../../util/types/Ranks";
+
+import {Ranks, RanksMetadata} from "../../util/types/Roblox";
 
 @ApplyOptions<CommandOptions>({
     description: "Check if they own the Member+ pass.",

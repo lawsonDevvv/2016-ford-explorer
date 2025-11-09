@@ -5,10 +5,10 @@ import {
     Message,
     SlashCommandBuilder
 } from "discord.js";
-import GroupRanks, {RanksMetadata} from "../../util/types/Ranks";
 import axios, {AxiosResponse} from "axios";
 import {apiUrl, headers} from "../../Bot";
 import {ApiGenericResponse} from "../../util/types/API";
+import {GroupRanks, RanksMetadata} from "../../util/types/Roblox";
 
 type SetRankOptions = GroupRanks.Member | GroupRanks.MemberPlus | GroupRanks.Booster;
 

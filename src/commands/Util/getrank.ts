@@ -3,11 +3,11 @@ import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/fra
 import {ChatInputCommandInteraction, Message, SlashCommandBuilder} from "discord.js";
 import axios from "axios";
 import {apiUrl, headers} from "../../Bot";
-import {Ranks, RanksMetadata} from "../../util/types/Ranks";
 import {
     ApiGenericResponse,
     ApiGetRankByUsernameSuccessResponse
 } from "../../util/types/API";
+import {Ranks, RanksMetadata} from "../../util/types/Roblox";
 
 @ApplyOptions<CommandOptions>({
     description: "Get a user's rank",
