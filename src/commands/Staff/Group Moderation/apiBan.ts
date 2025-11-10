@@ -57,6 +57,14 @@ export default class extends Command {
                         {
                             name: "The Rockaways",
                             value: "theRockaways"
+                        },
+                        {
+                            name: "Eli's Subway Freedrive",
+                            value: "elisSubway"
+                        },
+                        {
+                            name: "All CMTZ Games",
+                            value: "all"
                         }
                     ])
                     .setRequired(true)
