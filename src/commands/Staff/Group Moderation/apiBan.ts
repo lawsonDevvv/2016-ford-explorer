@@ -2,7 +2,7 @@ import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} f
 import {ChatInputCommandInteraction, SlashCommandBuilder, TextChannel} from "discord.js";
 import {ApplyOptions} from "@sapphire/decorators";
 import {getIdFromUsername} from "noblox.js";
-import {GameJoinRestriction, CMTZUniverse, UniverseIDMetadata} from "../../../util/types/Roblox";
+import {CMTZUniverse, UniverseIDMetadata, UniverseID} from "../../../util/types/Roblox";
 import apiBan from "../../../util/roblox/apiBan";
 import {EmbedBuilder} from "@discordjs/builders";
 
@@ -102,7 +102,28 @@ export default class extends Command {
 
         if (duration && !durationRegex.test(duration)) return await interaction.editReply({ content: "Invalid duration. Only input single time units like 10m, 2s, 5y, etc." });
 
-        const gameJoinRestriction: GameJoinRestriction = (await apiBan(userId, UniverseIDMetadata[game], displayReason, privateReason, !ipBan, duration)).gameJoinRestriction;
+        let games: UniverseID[] = [];
+        let successfulGameBans: UniverseID[] = []
+        switch (game) {
+            case "fultonSt":
+                games.push(UniverseID.FultonStreet);
+                break;
+            case "theRockaways":
+                games.push(UniverseID.FultonStreet);
+                break;
+            case "elisSubway":
+                games.push(UniverseID.ElisSubway);
+                break;
+            default:
+                games.push(UniverseID.FultonStreet, UniverseID.TheRockaways, UniverseID.ElisSubway);
+                break;
+        }
+
+        for (const _game of games) {
+            await apiBan(userId, _game, displayReason, privateReason, !ipBan, duration);
+            successfulGameBans.push(_game);
+        }
+        const mappedGames: string = successfulGameBans.map((successfulGameBan: UniverseID) => UniverseIDMetadata[successfulGameBan]).join(", ");
 
         const embed = new EmbedBuilder()
             .setTitle("API Ban Result")
@@ -119,7 +140,7 @@ export default class extends Command {
                 },
                 {
                     name: "Reason",
-                    value: gameJoinRestriction.displayReason,
+                    value: displayReason,
                     inline: false
                 },
                 {
@@ -128,8 +149,13 @@ export default class extends Command {
                     inline: true
                 },
                 {
+                    name: "Game(s)",
+                    value: mappedGames,
+                    inline: true
+                },
+                {
                     name: "Duration",
-                    value: gameJoinRestriction.duration ? gameJoinRestriction.duration.toString() : "Permanent",
+                    value: duration ? duration.toString() : "Permanent",
                     inline: true
                 }
             ])
