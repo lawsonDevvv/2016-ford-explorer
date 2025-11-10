@@ -27,16 +27,19 @@ export enum GroupRanks {
 
 export enum UniverseID {
     FultonStreet = 6877448005,
-    TheRockaways = 5523418888
+    TheRockaways = 5523418888,
+    ElisSubway = 6656953633
 }
 
-export type CMTZUniverse = "fultonSt" | "theRockaways";
+export type CMTZUniverse = "fultonSt" | "theRockaways" | "elisSubway";
 
 export const UniverseIDMetadata = {
     [UniverseID.FultonStreet]: "Fulton Street",
     [UniverseID.TheRockaways]: "The Rockaways",
+    [UniverseID.ElisSubway]: "Eli's Subway",
     fultonSt: UniverseID.FultonStreet,
-    theRockaways: UniverseID.TheRockaways
+    theRockaways: UniverseID.TheRockaways,
+    elisSubway: UniverseID.ElisSubway
 }
 
 export const RanksMetadata = {
