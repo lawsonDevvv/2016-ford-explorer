@@ -15,7 +15,6 @@ export default async (): Promise<string> => {
     if (!response.headers) throw new Error("No request headers (ParsonsBoweryBroad1)");
 
     const xsrfToken: string | null = response.headers["x-csrf-token"];
-    console.log(xsrfToken);
     if (!xsrfToken) throw new Error("No request headers (ParsonsBoweryBroad2)");
 
     return xsrfToken;
