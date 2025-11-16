@@ -84,7 +84,7 @@ export const RanksMetadata = {
 export interface GameJoinRestriction {
     active: false,
     startTime: Date,
-    duration?: number;
+    duration?: string;
     privateReason: string,
     displayReason: string,
     excludeAltAccounts: true,
