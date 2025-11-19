@@ -9,7 +9,7 @@ export default async (): Promise<string> => {
                 "Cookie": `.ROBLOSECURITY=${process.env.ROBLOX_COOKIE}`,
                 "Accept": "*/*"
             },
-            validateStatus: () => true
+            validateStatus: () => true // i dont really give a fuck what it returns, only that it returns a csrf token which is checked below
         });
 
     if (!response.headers) throw new Error("No request headers (ParsonsBoweryBroad1)");
