@@ -59,8 +59,7 @@ export default class extends Command {
 
         const username: string = interaction.options.getString("username", true);
         const rank: SetRankOptions = interaction.options.getString("rank", true) as SetRankOptions;
-
-        // I don't fully understand how this works, and so I don't expect you to know how it works either
+        
         const rankToGive = RanksMetadata[rank];
 
         try {
