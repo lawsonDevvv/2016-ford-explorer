@@ -5,10 +5,10 @@ import {
     Message,
     SlashCommandBuilder
 } from "discord.js";
-import axios, {AxiosResponse} from "axios";
-import {apiUrl, headers} from "../../Bot";
+import axios from "axios";
 import {ApiGenericResponse} from "../../util/types/API";
 import {GroupRanks, RanksMetadata} from "../../util/types/Roblox";
+import setRank from "../../util/api/setRank";
 
 type SetRankOptions = GroupRanks.Member | GroupRanks.MemberPlus | GroupRanks.Booster;
 
@@ -59,21 +59,13 @@ export default class extends Command {
 
         const username: string = interaction.options.getString("username", true);
         const rank: SetRankOptions = interaction.options.getString("rank", true) as SetRankOptions;
-        
+
         const rankToGive = RanksMetadata[rank];
 
         try {
-            const response: AxiosResponse = await axios.post<ApiGenericResponse>(
-                `${apiUrl}/ranking/setRank`,
-                {
-                    username,
-                    rank: rankToGive,
-                    reason: `/setRank ran by ${interaction.user.username}`
-                },
-                { headers }
-            );
+            const response: ApiGenericResponse = await setRank(username, rankToGive, `/setrank run by ${interaction.user}`);
 
-            return await interaction.editReply(`${response.data.message ?? ':thumbs_up:'}`);
+            return await interaction.editReply(`${response.message ?? ":thumbs_up:"}`);
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 if (!err.status) this.container.logger.error(err);
