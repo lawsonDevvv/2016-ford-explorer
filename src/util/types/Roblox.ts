@@ -100,6 +100,12 @@ export interface VerboseGameJoinRestriction extends GameJoinRestriction {
     user: string
 }
 
+export interface APIGetRestrictionsResponse {
+    path: string,
+    user: string,
+    gameJoinRestriction: GameJoinRestriction
+}
+
 export interface APIBanResponse {
     gameJoinRestriction: GameJoinRestriction
     nextPageToken: string,
@@ -109,3 +115,33 @@ export interface APIUnbanResponse {
     gameJoinRestriction: MinimalGameJoinRestriction
 }
 
+export interface APIGetAssetMetadataResponse {
+    assetType: string,
+    assetId: number,
+    creationContext: {
+        creator: {
+            userId: number | null,
+            groupId: number | null
+        }
+    },
+    description: string,
+    displayName: string,
+    path: string,
+    revisionId: string,
+    revisionCreateTime: string,
+    moderationResult: {
+        moderationState: string
+    },
+    icon: string,
+    previews: [
+        {
+            asset: string,
+            altText: string
+        }
+    ],
+    state: string,
+    socialLink: {
+        title: string,
+        uri: string
+    }
+}
