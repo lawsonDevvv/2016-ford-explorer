@@ -15,6 +15,7 @@ import {
 } from "../../util/types/API";
 
 import {Ranks, RanksMetadata} from "../../util/types/Roblox";
+import checkgamepass from "../../util/api/checkGamepass";
 
 @ApplyOptions<CommandOptions>({
     description: "Check if they own the Member+ pass.",
@@ -56,12 +57,9 @@ export default class extends Command {
 
             if (getRankResponse.data.rank >= Ranks.MemberPlus) return interaction.editReply(`User is already at or above the rank of Member+, ranking them would be a demotion. TRAIN_OPERATOR_ZONE_OVERRIDE (BIE)`);
 
-            const memberPlusResponse: AxiosResponse<ApiMemberPlusCheckSuccessResponse> = await axios.get<ApiMemberPlusCheckSuccessResponse>(
-                `${apiUrl}/ranking/memberPlusCheck?username=${username}`,
-                { headers }
-            );
+            const memberPlusCheckResponse: ApiMemberPlusCheckSuccessResponse = await checkgamepass(username);
 
-            if (!memberPlusResponse.data.ownsGamePass) return interaction.editReply(`No GamePass found in the user's inventory. CBTC_NO_EPIC_PASS (CBTC_AUTH_ERROR)`);
+            if (!memberPlusCheckResponse.ownsGamePass) return interaction.editReply(`No GamePass found in the user's inventory. CBTC_NO_EPIC_PASS (CBTC_AUTH_ERROR)`);
 
             await axios.post<ApiGenericResponse>(
                 `${apiUrl}/ranking/setRank`,
