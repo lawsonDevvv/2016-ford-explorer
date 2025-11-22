@@ -81,12 +81,11 @@ export default async (channel: TextChannel) => {
 
     const parsedMessages: string[] = sortedMessages.map((message: Message<true>) => {
         return (
-            `${message.author.username} (${message.author.id}): 
-            ${
-                message.content ?? 'No message content. Likely an embed.'
-            } ${
-                message.attachments.size > 0
-                    ? '[Attachments: ' + message.attachments.map(a => a.name).join(', ') + `]`
+            `${message.author.username} (${message.author.id} | ${message.createdAt.toISOString()} EST): ` +
+            `    ${message.content ?? 'No message content. Likely an embed.'} ` +
+            `${
+                message.attachments.size > 0 /* if message has attachment, log their names, otherwise do nothing */
+                    ? '[Attachments: ' + message.attachments.map(att => att.name).join(', ') + `]`
                     : ''
             }`
         )
