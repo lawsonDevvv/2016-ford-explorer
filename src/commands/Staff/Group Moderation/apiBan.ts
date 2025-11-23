@@ -120,7 +120,7 @@ export default class extends Command {
         }
 
         for (const _game of games) {
-            await apiBan(userId, _game, displayReason, privateReason, !ipBan, duration);
+            await apiBan(userId, _game, displayReason, privateReason, ipBan, duration);
             successfulGameBans.push(_game);
         }
         const mappedGames: string = successfulGameBans.map((successfulGameBan: UniverseID) => UniverseIDMetadata[successfulGameBan]).join(", ");
