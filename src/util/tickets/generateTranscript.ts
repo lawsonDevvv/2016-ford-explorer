@@ -8,7 +8,7 @@
  * @module util/tickets/generateTranscript
  */
 
-import {Collection, Message, TextChannel, AttachmentBuilder, GuildBasedChannel} from "discord.js";
+import {Collection, Message, TextChannel, AttachmentBuilder, GuildBasedChannel, Attachment} from "discord.js";
 import {prisma} from "../../Bot";
 import {Ticket, TicketSettings} from "@prisma/client";
 
@@ -81,11 +81,16 @@ export default async (channel: TextChannel) => {
 
     const parsedMessages: string[] = sortedMessages.map((message: Message<true>) => {
         return (
-            `${message.author.username} (${message.author.id} | ${message.createdAt.toISOString()} EST): ` +
+            `${message.author.username} (${message.author.id} | ${message.createdAt.toISOString()} EST):\n` +
             `    ${message.content ?? 'No message content. Likely an embed.'} ` +
             `${
                 message.attachments.size > 0 /* if message has attachment, log their names, otherwise do nothing */
-                    ? '[Attachments: ' + message.attachments.map(att => att.name).join(', ') + `]`
+                    ? '[Attachments: ' + message.attachments.map((att: Attachment): string => att.name).join(', ') + ']'
+                    : ''
+            } ` +
+            `${
+                message.embeds.length > 0
+                    ? `[${message.embeds.length} Embed${message.embeds.length > 1 ? 's' : '' }]`
                     : ''
             }`
         )
