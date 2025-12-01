@@ -1,8 +1,8 @@
 import axios, {AxiosResponse} from "axios";
-import {APIUnbanResponse} from "../types/Roblox";
+import {APIUnbanResponse, UniverseID} from "../types/Roblox";
 import getXSRFToken from "./getXSRFToken";
 
-export default async (userId: number, universeId: number) => {
+export default async (userId: number, universeId: UniverseID): Promise<APIUnbanResponse> => {
     const baseUrl = "https://apis.roblox.com";
 
     const response: AxiosResponse<APIUnbanResponse> = await axios.patch<APIUnbanResponse>(
