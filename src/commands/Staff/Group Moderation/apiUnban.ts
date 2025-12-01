@@ -1,7 +1,7 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior} from "@sapphire/framework";
 import {ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
-import {CMTZUniverse, UniverseIDMetadata} from "../../../util/types/Roblox";
+import {CMTZUniverse, UniverseID, UniverseIDMetadata} from "../../../util/types/Roblox";
 import {getIdFromUsername} from "noblox.js";
 import apiUnban from "../../../util/roblox/apiUnban";
 import {EmbedBuilder} from "@discordjs/builders";
@@ -35,6 +35,14 @@ export default class extends Command {
                         {
                             name: "Fulton Street",
                             value: "fultonSt"
+                        },
+                        {
+                            name: "Eli's Subway",
+                            value: "elisSubway"
+                        },
+                        {
+                            name: "All CMTZ Games",
+                            value: "all"
                         }
                     ])
                     .setRequired(true)
@@ -52,7 +60,30 @@ export default class extends Command {
         const userId: number = await getIdFromUsername(username);
         if (!userId) return await interaction.editReply("That username doesn't exist twin.");
 
-        await apiUnban(userId, UniverseIDMetadata[game]);
+        let games: UniverseID[] = [];
+        let successfulGameUnbans: UniverseID[] = [];
+
+        switch (game as CMTZUniverse | "all") {
+            case "fultonSt":
+                games.push(UniverseID.FultonStreet);
+                break;
+            case "theRockaways":
+                games.push(UniverseID.FultonStreet);
+                break;
+            case "elisSubway":
+                games.push(UniverseID.ElisSubway);
+                break;
+            default:
+                games.push(UniverseID.FultonStreet, UniverseID.TheRockaways, UniverseID.ElisSubway);
+                break;
+        }
+
+        for (const game of games) {
+            await apiUnban(userId, game);
+            successfulGameUnbans.push(game)
+        }
+
+        const mappedGames: string = successfulGameUnbans.map((successfulGameBan: UniverseID): string => UniverseIDMetadata[successfulGameBan]).join(", ");
 
         const embed = new EmbedBuilder()
             .setTitle("API Unban Result")
@@ -71,9 +102,15 @@ export default class extends Command {
                     name: "Staff Member",
                     value: interaction.user.toString(),
                     inline: false
+                },
+                {
+                    name: "Game(s)",
+                    value: mappedGames,
+                    inline: true
                 }
             ])
-            .setFooter({ text: "Re- Relay off A-lead. Relay off A-lead." });
+            .setFooter({ text: "Re- Relay off A-lead. Relay off A-lead." })
+            .setTimestamp(new Date());
 
         return await interaction.editReply({ embeds: [embed] });
     }
