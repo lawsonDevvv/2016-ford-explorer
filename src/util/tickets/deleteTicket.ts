@@ -8,11 +8,11 @@
  */
 
 import {Colors, EmbedBuilder, TextChannel, User} from "discord.js";
-import {prisma} from "../../Bot";
+import {prisma, client} from "../../Bot";
 import {TicketStatus, ticketType, TicketTypeMetadata} from "../types/Tickets";
 
 
-const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: ticketType, ticketOwner: User) => {
+const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, ticketNumber: number, type: ticketType) => {
     return new EmbedBuilder()
         .setTitle('Ticket Deleted')
         .addFields([
@@ -33,7 +33,7 @@ const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: tick
             },
             {
                 name: 'Deleted By',
-                value: `${user}`,
+                value: `${ticketRemover}`,
                 inline: true
             }
         ])
@@ -62,6 +62,8 @@ export default async (channel: TextChannel, user: User) => {
         }
     });
 
+    const ticketOwner: User = client.user.fetch(ticket.user)
+
     if (!ticket) throw new Error(`Ticket not found for channel ${channel.id}`);
     if (!ticketSettings) throw new Error(`Ticket settings not found for guild ${channel.guild.id}`);
 
@@ -79,7 +81,7 @@ export default async (channel: TextChannel, user: User) => {
 
     await logsChannel.send({
         embeds: [
-            await createDeleteLogEmbed(user, ticket.number, ticket.type as ticketType)
+            await createDeleteLogEmbed(ticketOwner, user, ticket.number, ticket.type as ticketType)
         ]
     });
 
