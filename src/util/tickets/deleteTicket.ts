@@ -62,7 +62,7 @@ export default async (channel: TextChannel, user: User) => {
         }
     });
 
-    const ticketOwner: User = client.user.fetch(ticket.user)
+    const ticketOwner: User = client.users.fetch(ticket.user)
 
     if (!ticket) throw new Error(`Ticket not found for channel ${channel.id}`);
     if (!ticketSettings) throw new Error(`Ticket settings not found for guild ${channel.guild.id}`);
