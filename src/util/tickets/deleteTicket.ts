@@ -1,8 +1,6 @@
 /**
  * @file deleteTicket.ts
- * @description Handles the deletion of ticket channels and logs the deletion action.
- * This module records the deletion event in the configured logs channel and properly
- * cleans up database records.
+ * @description Delete a ticket (and log).
  * 
  * @module util/tickets/deleteTicket
  */
