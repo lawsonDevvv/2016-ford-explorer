@@ -15,11 +15,6 @@ const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, tick
         .setTitle('Ticket Deleted')
         .addFields([
             {
-                name: 'Ticket Owner',
-                value: `${ticketOwner}`,
-                inline: true
-            },
-            {
                 name: 'Ticket No.',
                 value: `${ticketNumber}`,
                 inline: true
@@ -27,6 +22,11 @@ const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, tick
             {
                 name: 'Ticket Type',
                 value: `${TicketTypeMetadata[type]}`,
+                inline: true
+            },
+            {
+                name: 'Ticket Owner',
+                value: `${ticketOwner}`,
                 inline: true
             },
             {
@@ -60,13 +60,13 @@ export default async (channel: TextChannel, user: User) => {
         }
     });
 
-    const ticketOwner: User = client.users.fetch(ticket.user)
-
     if (!ticket) throw new Error(`Ticket not found for channel ${channel.id}`);
     if (!ticketSettings) throw new Error(`Ticket settings not found for guild ${channel.guild.id}`);
 
     const logsChannel = await channel.guild.channels.fetch(ticketSettings.logsChannel);
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
+
+    const ticketOwner: User = await client.users.fetch(ticket.user);
 
     await prisma.ticket.update({
         where: {
