@@ -17,11 +17,6 @@ const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, tick
         .setTitle('Ticket Deleted')
         .addFields([
             {
-                name: 'Ticket Owner',
-                value: `${ticketOwner}`,
-                inline: true
-            },
-            {
                 name: 'Ticket No.',
                 value: `${ticketNumber}`,
                 inline: true
@@ -29,6 +24,11 @@ const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, tick
             {
                 name: 'Ticket Type',
                 value: `${TicketTypeMetadata[type]}`,
+                inline: true
+            },
+            {
+                name: 'Ticket Owner',
+                value: `${ticketOwner}`,
                 inline: true
             },
             {
