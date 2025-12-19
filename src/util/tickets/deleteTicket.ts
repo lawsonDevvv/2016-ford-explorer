@@ -62,13 +62,14 @@ export default async (channel: TextChannel, user: User) => {
         }
     });
 
-    const ticketOwner: User = client.users.fetch(ticket.user)
-
     if (!ticket) throw new Error(`Ticket not found for channel ${channel.id}`);
     if (!ticketSettings) throw new Error(`Ticket settings not found for guild ${channel.guild.id}`);
 
     const logsChannel = await channel.guild.channels.fetch(ticketSettings.logsChannel);
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
+
+    const ticketOwner: User = await client.users.fetch(ticket.user);
+    if (!ticketOwner) throw new Error(`Ticket owner not found for ${channel.id}`);
 
     await prisma.ticket.update({
         where: {
