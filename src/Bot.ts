@@ -40,6 +40,11 @@ colorette.createColors({ useColor: true });
 
         await client.login(process.env.TOKEN ?? "0");
 
+        scheduleJob('* * 0 31 12 *', async () => {
+            const channel = await client.channels.fetch('1373852973222072320') as TextChannel
+            await channel.send("@everyone merry chrysler");
+        });
+
         client.user?.setActivity({
             name: "lawson.nyc",
             type: ActivityType.Listening,
