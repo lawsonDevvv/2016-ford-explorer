@@ -1,6 +1,7 @@
 import {Events, Listener, ListenerOptions} from "@sapphire/framework";
 import {Message} from "discord.js";
 import {ApplyOptions} from "@sapphire/decorators";
+import {TicketCategories} from "../util/types/Tickets";
 
 @ApplyOptions<ListenerOptions>({
     event: Events.MessageCreate
@@ -20,8 +21,9 @@ export default class SixSeven extends Listener {
     public async run(message: Message<true>): Promise<Message<true> | undefined> {
         if (!message.guild) return;
         if (message.author.id === this.container.client.user!.id) return;
+        if (message.channel.parent && Object.values(TicketCategories).includes(message.channel.parent.id)) return;
 
-        const triggered: boolean = this.sixSevenTriggerPhrases.some((phrase: string) =>
+        const triggered: boolean = this.sixSevenTriggerPhrases.some((phrase: string): boolean =>
             message.content.toLowerCase().includes(phrase.toLowerCase())
         );
         if (!triggered) return;
