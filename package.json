@@ -36,7 +36,6 @@
     "dotenv-cra": "^3.0.3",
     "file-type": "^21.1.0",
     "hi-base32": "^0.5.1",
-    "noblox.js": "^6.0.2",
     "node-schedule": "^2.1.1",
     "openblox": "^1.0.15",
     "otplib": "^12.0.1",
