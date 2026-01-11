@@ -6,7 +6,7 @@ import setMoney from "../../../util/roblox/datastore/setMoney";
 import generateDatastoreEditResultEmbed from "../../../util/roblox/datastore/generateDatastoreEditResultEmbed";
 
 @ApplyOptions<CommandOptions>({
-    description: "Set a player's money. (Overrides all money they previously had, use /addmoney to add; Will not work if they are in-game)",
+    description: "Set a player's money. (Overrides all money they previously had; Will not work if they are in-game)",
     preconditions: ["Developer"]
 })
 export default class extends Command {
