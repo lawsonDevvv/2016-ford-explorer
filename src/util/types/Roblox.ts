@@ -1,3 +1,5 @@
+export type GoogleProtobufValue = null | number | string | boolean | object;
+
 export enum Ranks {
     Guest = 0,
     Member = 1,
@@ -144,4 +146,26 @@ export interface APIGetAssetMetadataResponse {
         title: string,
         uri: string
     }
+}
+
+export interface PlayerMoneyData {
+    CareerMode: "ENABLED" | "DISABLED",
+    HighestStreak: number,
+    Money: number,
+}
+
+export interface APIDatastoreEntry {
+    path: string,
+    createTime: string,
+    revisionId: string,
+    revisionCreateTime: string,
+    state: string,
+    etag: string,
+    value: GoogleProtobufValue | Array<GoogleProtobufValue>,
+    id: string,
+    attributes: string[]
+}
+
+export interface APIPlayerMoneyDatastoreEntry extends APIDatastoreEntry {
+    value: PlayerMoneyData
 }
