@@ -31,11 +31,9 @@ export default class extends Command {
     public async chatInputRun(interaction: ChatInputCommandInteraction): Promise<Message> {
         await interaction.deferReply();
 
-        // fetch the asset id from the command options
         const assetId: number = interaction.options.getNumber("assetid", true);
 
         try {
-            // get asset metadata
             const { assetType, description, creationContext, revisionCreateTime, moderationResult, displayName, state }: APIGetAssetMetadataResponse = await getAssetMetadata(assetId);
 
             const embed = new EmbedBuilder()
