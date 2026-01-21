@@ -57,7 +57,7 @@ model GiveawayParticipant {
 model Case {
   id          Int      @id @unique @default(autoincrement())
   createdAt   DateTime @default(now())
-  editedAt    DateTime @updatedAt
+  editedAt    DateTime @updatedAt @default(now())
   guild       String
   user        String
   type        Int
@@ -88,4 +88,18 @@ model Ticket {
   status       Int       @default(0) // 0 = Open, 1 = Closed, // 2 = Deleted
 
   @@unique([guild, number])
+}
+
+model BackupCode {
+  id        Int      @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    String   @unique
+  code      String   @unique
+}
+
+model StarboardEntry {
+  id        Int      @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  messageId String   @unique
+  stars     Int
 }

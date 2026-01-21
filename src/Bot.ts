@@ -4,10 +4,8 @@ import { PrismaClient } from "@prisma/client";
 import "reflect-metadata";
 import "@sapphire/plugin-logger/register";
 import * as colorette from "colorette";
-import { config } from "dotenv-cra";
+import { config as configEnv } from "dotenv-cra";
 import { inspect } from "util";
-import * as noblox from 'noblox.js';
-import {AuthenticatedUserData} from "noblox.js";
 
 export const prisma: PrismaClient = new PrismaClient();
 
@@ -20,7 +18,7 @@ export const headers = { Authorization: process.env.API_KEY }
 
 process.env.NODE_ENV ??= "development";
 
-config();
+configEnv();
 
 // Set default inspection depth
 inspect.defaultOptions.depth = 1;
@@ -32,15 +30,10 @@ colorette.createColors({ useColor: true });
         client.logger.info("Hitting the ignition...");
 
         await prisma.$connect();
-
         client.logger.info("Connected to database server.");
 
-        const user: AuthenticatedUserData = await noblox.setCookie(process.env.ROBLOX_COOKIE ?? "0");
-        client.logger.info(`Logged into the ROBLOX API as ${user.name} (${user.id}).`);
-
         await client.login(process.env.TOKEN ?? "0");
-
-        client.user?.setActivity({
+        client.user!.setActivity({
             name: "lawson.nyc",
             type: ActivityType.Listening,
         });

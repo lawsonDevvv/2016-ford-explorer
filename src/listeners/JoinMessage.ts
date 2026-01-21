@@ -19,7 +19,7 @@ export default class extends Listener {
                     value: `${member.user.createdAt}`
                 }
             ])
-            .setFooter({text: `${await suffix(channel.guild.memberCount)} member.`})
+            .setFooter({text: `${channel.guild.memberCount}${await suffix(channel.guild.memberCount)} member.`})
             .setColor(0x08FF00)
         ;
 
