@@ -1,17 +1,16 @@
 /**
  * @file deleteTicket.ts
- * @description Handles the deletion of ticket channels and logs the deletion action.
- * This module records the deletion event in the configured logs channel and properly
- * cleans up database records.
+ * @description Delete a ticket (and log).
  * 
  * @module util/tickets/deleteTicket
  */
 
 import {Colors, EmbedBuilder, TextChannel, User} from "discord.js";
-import {prisma} from "../../Bot";
+import {prisma, client} from "../../Bot";
 import {TicketStatus, ticketType, TicketTypeMetadata} from "../types/Tickets";
 
-const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: ticketType) => {
+
+const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, ticketNumber: number, type: ticketType) => {
     return new EmbedBuilder()
         .setTitle('Ticket Deleted')
         .addFields([
@@ -26,8 +25,13 @@ const createDeleteLogEmbed = async (user: User, ticketNumber: number, type: tick
                 inline: true
             },
             {
+                name: 'Ticket Owner',
+                value: `${ticketOwner}`,
+                inline: true
+            },
+            {
                 name: 'Deleted By',
-                value: `${user}`,
+                value: `${ticketRemover}`,
                 inline: true
             }
         ])
@@ -62,6 +66,8 @@ export default async (channel: TextChannel, user: User) => {
     const logsChannel = await channel.guild.channels.fetch(ticketSettings.logsChannel);
     if (!(logsChannel instanceof TextChannel)) throw new Error('Logs channel is not of type TextChannel');
 
+    const ticketOwner: User = await client.users.fetch(ticket.user);
+
     await prisma.ticket.update({
         where: {
             id: ticket.id
@@ -73,7 +79,7 @@ export default async (channel: TextChannel, user: User) => {
 
     await logsChannel.send({
         embeds: [
-            await createDeleteLogEmbed(user, ticket.number, ticket.type as ticketType)
+            await createDeleteLogEmbed(ticketOwner, user, ticket.number, ticket.type as ticketType)
         ]
     });
 

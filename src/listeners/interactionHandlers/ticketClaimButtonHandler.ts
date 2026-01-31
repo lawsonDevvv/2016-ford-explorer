@@ -10,7 +10,7 @@ export default class extends Listener {
     public async run(interaction: ButtonInteraction) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== 'claimTicketButton') return;
-        if (!interaction.guild || !interaction.member) return;
+        if (!interaction.guild || !(interaction.member instanceof GuildMember)) return;
         if (!(interaction.channel instanceof TextChannel)) return;
 
         await interaction.deferReply({
@@ -20,8 +20,7 @@ export default class extends Listener {
         });
 
         try {
-            // Horrible use of type casting but it works so :shrug:
-            await claimTicket(interaction.channel, interaction.member as GuildMember);
+            await claimTicket(interaction.channel, interaction.member);
             return await interaction.editReply("Ticket claimed.");
         } catch (err: any) {
             if (!(err instanceof Error)) this.container.logger.error(err);

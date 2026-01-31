@@ -1,7 +1,7 @@
 import {ApplyOptions} from "@sapphire/decorators";
 import {ApplicationCommandRegistry, Command, CommandOptions} from "@sapphire/framework";
 import {ChatInputCommandInteraction, Message, SlashCommandBuilder, TextChannel} from "discord.js";
-import {prisma} from "../../Bot";
+import {prisma} from "../../../Bot";
 import {Counting} from "@prisma/client";
 import {EmbedBuilder} from "@discordjs/builders";
 
