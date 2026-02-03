@@ -17,7 +17,7 @@ import {prisma} from "../Bot";
     event: Events.MessageReactionAdd
 })
 export default class extends Listener {
-    private readonly minimumReactions: number = 1;
+    private readonly minimumReactions: number = 3;
     private readonly starboardChannel: string = "1445880837211033660";
 
     private generateStarboardEmbed(message: Message): EmbedBuilder {
