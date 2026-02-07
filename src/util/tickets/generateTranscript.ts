@@ -8,8 +8,8 @@
  * @module util/tickets/generateTranscript
  */
 
-import {Collection, Message, TextChannel, AttachmentBuilder, GuildBasedChannel, Attachment} from "discord.js";
-import {prisma} from "../../Bot";
+import {Collection, Message, TextChannel, AttachmentBuilder, GuildBasedChannel, Attachment, User} from "discord.js";
+import {client, prisma} from "../../Bot";
 import {Ticket, TicketSettings} from "@prisma/client";
 
 /**
@@ -79,7 +79,7 @@ export default async (channel: TextChannel) => {
         }
     });
 
-    const parsedMessages: string[] = sortedMessages.map((message: Message<true>) => {
+    const parsedMessages: string[] = sortedMessages.map((message: Message<true>): string => {
         return (
             `${message.author.username} (${message.author.id} | ${message.createdAt.toISOString()} EST):\n` +
             `    ${message.content ?? 'No message content. Likely an embed.'} ` +
@@ -96,6 +96,8 @@ export default async (channel: TextChannel) => {
         )
     });
 
+    const ticketOwner: User = await client.users.fetch(ticket.user);
+
     await prisma.ticket.update({
         where: {
             id: ticket.id
@@ -107,11 +109,9 @@ export default async (channel: TextChannel) => {
 
     const transcriptFileString: string = parsedMessages.join('\n');
 
-    await logsChannel.send({
-        files: [
-            new AttachmentBuilder(Buffer.from(transcriptFileString), {
-                name: `transcript-${ticket.number}.txt`
-            })
-        ]
-    });
+    const builder = new AttachmentBuilder(Buffer.from(transcriptFileString), {
+        name: `transcript-${ticket.number}.txt`
+    })
+    await logsChannel.send({ files: [builder] });
+    await ticketOwner.send({ content: `Ticket ${ticket.number} Transcript`, files: [builder] });
 }
