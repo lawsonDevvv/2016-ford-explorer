@@ -8,6 +8,7 @@
 import {Colors, EmbedBuilder, TextChannel, User} from "discord.js";
 import {prisma, client} from "../../Bot";
 import {TicketStatus, ticketType, TicketTypeMetadata} from "../types/Tickets";
+import { Ticket, TicketSettings } from "@prisma/client";
 
 
 const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, ticketNumber: number, type: ticketType) => {
@@ -48,13 +49,13 @@ const createDeleteLogEmbed = async (ticketOwner: User, ticketRemover: User, tick
  * @throws Error if logs channel is not a text channel
  */
 export default async (channel: TextChannel, user: User) => {
-    const ticket = await prisma.ticket.findFirst({
+    const ticket: Ticket | null = await prisma.ticket.findFirst({
         where: {
             channel: channel.id
         }
     });
 
-    const ticketSettings = await prisma.ticketSettings.findFirst({
+    const ticketSettings: TicketSettings | null = await prisma.ticketSettings.findFirst({
         where: {
             guild: channel.guild.id
         }

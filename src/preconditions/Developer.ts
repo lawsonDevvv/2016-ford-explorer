@@ -9,8 +9,7 @@ export default class extends Precondition {
     public chatInputRun(interaction: ChatInputCommandInteraction, command: ChatInputCommand, _context: Precondition.Context): Precondition.Result {
         return (interaction.member?.roles as GuildMemberRoleManager).cache.has("1213277947780407366")
             ? this.ok()
-            : this.error({message: `User tried to run /${command.name}`})
-            ;
+            : this.error({message: `User tried to run /${command.name}`});
     }
 }
 
