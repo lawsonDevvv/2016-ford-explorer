@@ -34,11 +34,7 @@ colorette.createColors({ useColor: true });
         await prisma.$connect();
 
         client.logger.info("Connected to database server.");
-
-        const user: AuthenticatedUserData = await noblox.setCookie(process.env.ROBLOX_COOKIE ?? "0");
-        client.logger.info(`Logged into the ROBLOX API as ${user.name} (${user.id}).`);
-
-        if (process.env.API_URL && process.env.API_PORT) client.logger.warn("Environment variables API_URL and/or API_PORT is/are missing. Using default API URL (http://localhost:3000)");
+        if (!process.env.API_URL && !process.env.API_PORT) client.logger.warn("Environment variables API_URL and/or API_PORT is/are missing. Using default API URL (http://localhost:3000)");
 
         await client.login(process.env.TOKEN ?? "0");
 
