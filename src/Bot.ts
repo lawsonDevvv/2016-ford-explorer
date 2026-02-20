@@ -1,4 +1,4 @@
-import {ActivityType, type Message} from "discord.js";
+import {ActivityType, TextChannel, type Message} from "discord.js";
 import { LawsonClient } from "./lib/LawsonClient";
 import { PrismaClient } from "@prisma/client";
 import "reflect-metadata";
@@ -42,6 +42,15 @@ colorette.createColors({ useColor: true });
             name: "lawson.nyc",
             type: ActivityType.Listening,
         });
+
+        setInterval(async (): Promise<Message<true> | void> => {
+            const n: number = Math.floor(Math.random() * 5000001);
+            if (n == 6767) {
+                const generalChannelId = "1200954798778896465";
+                const channel = await client.channels.fetch(generalChannelId) as TextChannel;
+                return await channel.send("@everyone hello how are you")
+            } else return;
+        }, 1000);
 
         client.logger.info("Vroom vroom, bitch..");
         client.logger.info(`Loaded ${client.stores.size} stores.`);
