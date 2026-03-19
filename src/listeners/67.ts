@@ -4,6 +4,7 @@ import {ApplyOptions} from "@sapphire/decorators";
 import {TicketCategories} from "../util/types/Tickets";
 
 @ApplyOptions<ListenerOptions>({
+    enabled: false,
     event: Events.MessageCreate
 })
 export default class SixSeven extends Listener {
