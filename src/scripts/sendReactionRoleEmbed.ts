@@ -10,7 +10,7 @@ const sendReactionRoleEmbed = async (channel: TextChannel) => {
         .setLabel("Development Pings")
         .setEmoji({name: "💻"})
         .setStyle(ButtonStyle.Primary)
-        .setCustomId("devPingsButton");
+        .setCustomId("developmentPingsButton");
 
     const announcementPingsButton = new ButtonBuilder()
         .setLabel("Announcement Pings")
